@@ -1,49 +1,59 @@
-import { View, Text, StyleSheet, Button, Alert } from 'react-native';
-import { useEffect } from 'react';
-import {styles} from '../styles/HomeScreen.styles';
+import React from 'react';
+import { View } from 'react-native';
+import { styles } from '../styles/HomeScreen.styles';
 import { useTransactions } from '../context/TransactionsContext';
-import { exportTransactions } from '../services/export';
-import { importTransactions } from '../services/import';
-import { saveTransactions } from '../services/storage';
+import Header from '../components/Header';
+import ActionButtons from '../components/ActionButtons';
+import AddTransaction from '../components/AddTransaction';
+import TransactionHistory from '../components/TransactionHistory';
+import { Transaction } from '../types/Transaction';
 
 const HomeScreen = () => {
   const { transactions, addTransaction } = useTransactions();
 
-  useEffect(() => {
-    saveTransactions(transactions);
-  }, [transactions]);
-
-  const handleExport = async () => {
-    if (transactions.length === 0) {
-      Alert.alert('Nothing to export', 'You have no transactions saved.');
-      return;
-    }
-
-    await exportTransactions(transactions);
+  const handleImportedTransactions = (importedTransactions: Transaction[]) => {
+    importedTransactions.forEach(tx => addTransaction(tx));
   };
 
-  const handleImport = async () => {
-    const imported = await importTransactions();
-
-    if (!imported) {
-      Alert.alert('Import failed', 'Could not read the file or file was invalid.');
-      return;
-    }
-
-    imported.forEach(tx => addTransaction(tx));
-    Alert.alert('Success', `${imported.length} transactions imported.`);
+  const handleAddTransaction = (transaction: Transaction) => {
+    addTransaction(transaction);
   };
+
+  // Componente para o cabeçalho, já renderizado (não é mais uma função que retorna um componente)
+  const HeaderComponent = (
+    <View>
+      <Header
+        title="Welcome to FlowCash"
+        subtitle="Manage your home finances easily."
+      />
+
+      <AddTransaction onAddTransaction={handleAddTransaction} />
+    </View>
+  );
+
+  // Componente para o rodapé, já renderizado
+  const FooterComponent = (
+    <ActionButtons
+      transactions={transactions}
+      onImport={handleImportedTransactions}
+    />
+  );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to FlowCash</Text>
-      <Text style={styles.subtitle}>Manage your home finances easily.</Text>
-
-      <View style={styles.buttons}>
-        <Button title="Export data" onPress={handleExport} />
-        <View style={{ height: 12 }} />
-        <Button title="Import data" onPress={handleImport} />
-      </View>
+      {transactions.length === 0 ? (
+        <View>
+          {HeaderComponent}
+          <TransactionHistory transactions={[]} />
+          {FooterComponent}
+        </View>
+      ) : (
+        <TransactionHistory
+          transactions={transactions}
+          ListHeaderComponent={HeaderComponent}
+          ListFooterComponent={FooterComponent}
+        />
+      )}
     </View>
   );
 };

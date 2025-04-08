@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Transaction } from '../types/Transaction';
+import { loadTransactions, saveTransactions } from '../services/storage';
 
 type TransactionsContextType = {
   transactions: Transaction[];
@@ -10,6 +11,23 @@ const TransactionsContext = createContext<TransactionsContextType | undefined>(u
 
 export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const savedTransactions = await loadTransactions();
+      setTransactions(savedTransactions);
+      setIsLoading(false);
+    };
+
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      saveTransactions(transactions);
+    }
+  }, [transactions, isLoading]);
 
   const addTransaction = (tx: Transaction) => {
     setTransactions((prev) => [...prev, tx]);
