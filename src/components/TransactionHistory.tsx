@@ -16,7 +16,7 @@ const TransactionHistory = ({
   ListHeaderComponent,
   ListFooterComponent
 }: TransactionHistoryProps) => {
-  // Ordenar transações do mais recente para o mais antigo
+  // Sort transactions from newest to oldest
   const sortedTransactions = [...transactions].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -62,7 +62,7 @@ const TransactionHistory = ({
     </View>
   );
 
-  // Componha o cabeçalho completo
+  // Compose the complete header
   const renderHeader = () => (
     <>
       {ListHeaderComponent && (
@@ -82,7 +82,11 @@ const TransactionHistory = ({
       ListHeaderComponent={renderHeader}
       ListFooterComponent={ListFooterComponent}
       ListEmptyComponent={EmptyListComponent}
-      contentContainerStyle={transactions.length === 0 ? { flex: 1 } : null}
+      contentContainerStyle={[
+        transactions.length === 0 ? { flex: 1 } : null,
+        styles.listContainer
+      ]}
+      showsVerticalScrollIndicator={false}
     />
   );
 };

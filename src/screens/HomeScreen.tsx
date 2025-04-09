@@ -19,7 +19,7 @@ const HomeScreen = () => {
     addTransaction(transaction);
   };
 
-  // Componente para o cabeçalho, já renderizado (não é mais uma função que retorna um componente)
+  // Header component, already rendered (not a function that returns a component anymore)
   const HeaderComponent = (
     <View>
       <Header
@@ -31,7 +31,7 @@ const HomeScreen = () => {
     </View>
   );
 
-  // Componente para o rodapé, já renderizado
+  // Footer component, already rendered
   const FooterComponent = (
     <ActionButtons
       transactions={transactions}

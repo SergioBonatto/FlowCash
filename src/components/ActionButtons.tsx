@@ -1,8 +1,8 @@
-import { View, Button, Alert } from 'react-native';
-import { styles } from '../styles/HomeScreen.styles';
+import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
 import { exportTransactions } from '../services/export';
 import { importTransactions } from '../services/import';
 import { Transaction } from '../types/Transaction';
+import { theme } from '../styles/theme';
 
 interface ActionButtonsProps {
   transactions: Transaction[];
@@ -12,7 +12,7 @@ interface ActionButtonsProps {
 const ActionButtons = ({ transactions, onImport }: ActionButtonsProps) => {
   const handleExport = async () => {
     if (transactions.length === 0) {
-      Alert.alert('Nothing to export', 'You have no transactions saved.');
+      Alert.alert('Nothing to export', 'You don\'t have any saved transactions.');
       return;
     }
 
@@ -23,7 +23,7 @@ const ActionButtons = ({ transactions, onImport }: ActionButtonsProps) => {
     const imported = await importTransactions();
 
     if (!imported) {
-      Alert.alert('Import failed', 'Could not read the file or file was invalid.');
+      Alert.alert('Import failed', 'Could not read the file or the file is invalid.');
       return;
     }
 
@@ -32,12 +32,48 @@ const ActionButtons = ({ transactions, onImport }: ActionButtonsProps) => {
   };
 
   return (
-    <View style={styles.buttons}>
-      <Button title="Export data" onPress={handleExport} />
-      <View style={{ height: 12 }} />
-      <Button title="Import data" onPress={handleImport} />
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={[styles.button, styles.exportButton]}
+        onPress={handleExport}
+      >
+        <Text style={styles.buttonText}>Export data</Text>
+      </TouchableOpacity>
+
+      <View style={{ height: theme.spacing.md }} />
+
+      <TouchableOpacity
+        style={[styles.button, styles.importButton]}
+        onPress={handleImport}
+      >
+        <Text style={styles.buttonText}>Import data</Text>
+      </TouchableOpacity>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    marginVertical: theme.spacing.md,
+  },
+  button: {
+    borderRadius: theme.radius.sm,
+    padding: theme.spacing.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  exportButton: {
+    backgroundColor: theme.colors.primary,
+  },
+  importButton: {
+    backgroundColor: theme.colors.secondary,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: theme.fontWeight.medium,
+    fontSize: theme.fontSize.body,
+  },
+});
 
 export default ActionButtons;

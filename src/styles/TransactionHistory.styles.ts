@@ -1,62 +1,76 @@
 import { StyleSheet } from 'react-native';
+import { theme } from './theme';
 
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: 16,
+    marginVertical: theme.spacing.md,
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 12,
-    textAlign: 'center',
+    fontSize: theme.fontSize.subtitle,
+    fontWeight: theme.fontWeight.semibold,
+    marginBottom: theme.spacing.md,
+    textAlign: 'left',
+    color: theme.colors.text,
+    letterSpacing: 0.15,
   },
   noTransactions: {
     textAlign: 'center',
-    color: '#666',
-    marginTop: 10,
+    color: theme.colors.subText,
+    marginTop: theme.spacing.md,
+    fontSize: theme.fontSize.body,
   },
   transactionItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 12,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    marginBottom: 8,
-    borderLeftWidth: 4,
+    padding: theme.spacing.md,
+    backgroundColor: theme.colors.card,
+    borderRadius: theme.radius.md,
+    marginBottom: theme.spacing.sm,
+    shadowColor: theme.colors.dark,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
   incomeItem: {
-    borderLeftColor: '#4CAF50',
+    borderLeftColor: theme.colors.success,
+    borderLeftWidth: 4,
   },
   expenseItem: {
-    borderLeftColor: '#F44336',
+    borderLeftColor: theme.colors.danger,
+    borderLeftWidth: 4,
   },
   transactionInfo: {
     flex: 1,
   },
   transactionTitle: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: theme.fontSize.body,
+    fontWeight: theme.fontWeight.medium,
+    color: theme.colors.text,
   },
   transactionCategory: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 2,
+    fontSize: theme.fontSize.caption,
+    color: theme.colors.subText,
+    marginTop: theme.spacing.xs,
   },
   transactionDate: {
-    fontSize: 10,
-    color: '#999',
-    marginTop: 2,
+    fontSize: theme.fontSize.small,
+    color: theme.colors.grey,
+    marginTop: theme.spacing.xs,
   },
   transactionAmount: {
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontWeight: theme.fontWeight.semibold,
+    fontSize: theme.fontSize.body,
   },
   incomeAmount: {
-    color: '#4CAF50',
+    color: theme.colors.success,
   },
   expenseAmount: {
-    color: '#F44336',
+    color: theme.colors.danger,
+  },
+  listContainer: {
+    paddingBottom: theme.spacing.md,
   }
 });

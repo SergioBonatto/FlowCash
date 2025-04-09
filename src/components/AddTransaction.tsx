@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Pressable } from 'react-native';
 import { Transaction } from '../types/Transaction';
 import { styles } from '../styles/AddTransaction.styles';
+import { theme } from '../styles/theme';
 
 interface AddTransactionProps {
   onAddTransaction: (transaction: Transaction) => void;
@@ -36,13 +37,14 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add Transaction</Text>
+      <Text style={styles.title}>New Transaction</Text>
 
       <TextInput
         style={styles.input}
         placeholder="Title"
         value={title}
         onChangeText={setTitle}
+        placeholderTextColor={theme.colors.grey}
       />
 
       <TextInput
@@ -51,6 +53,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
         value={amount}
         onChangeText={setAmount}
         keyboardType="numeric"
+        placeholderTextColor={theme.colors.grey}
       />
 
       <TextInput
@@ -58,23 +61,48 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
         placeholder="Category (optional)"
         value={category}
         onChangeText={setCategory}
+        placeholderTextColor={theme.colors.grey}
       />
 
       <View style={styles.typeSelector}>
-        <Button
-          title="Income"
+        <Pressable
+          style={[
+            styles.button,
+            { backgroundColor: type === 'income' ? theme.colors.success : theme.colors.background }
+          ]}
           onPress={() => setType('income')}
-          color={type === 'income' ? '#4CAF50' : '#ccc'}
-        />
-        <View style={{width: 10}} />
-        <Button
-          title="Expense"
+        >
+          <Text style={{
+            color: type === 'income' ? 'white' : theme.colors.text,
+            textAlign: 'center',
+            fontWeight: theme.fontWeight.medium
+          }}>
+            Income
+          </Text>
+        </Pressable>
+
+        <View style={styles.buttonSpace} />
+
+        <Pressable
+          style={[
+            styles.button,
+            { backgroundColor: type === 'expense' ? theme.colors.danger : theme.colors.background }
+          ]}
           onPress={() => setType('expense')}
-          color={type === 'expense' ? '#F44336' : '#ccc'}
-        />
+        >
+          <Text style={{
+            color: type === 'expense' ? 'white' : theme.colors.text,
+            textAlign: 'center',
+            fontWeight: theme.fontWeight.medium
+          }}>
+            Expense
+          </Text>
+        </Pressable>
       </View>
 
-      <Button title="Save" onPress={handleSave} />
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveButtonText}>Save</Text>
+      </TouchableOpacity>
     </View>
   );
 };
