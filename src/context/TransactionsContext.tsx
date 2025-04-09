@@ -5,6 +5,7 @@ import { loadTransactions, saveTransactions } from '../services/storage';
 type TransactionsContextType = {
   transactions: Transaction[];
   addTransaction: (tx: Transaction) => void;
+  replaceAllTransactions: (txs: Transaction[]) => void;
 };
 
 const TransactionsContext = createContext<TransactionsContextType | undefined>(undefined);
@@ -33,8 +34,12 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
     setTransactions((prev) => [...prev, tx]);
   };
 
+  const replaceAllTransactions = (txs: Transaction[]) => {
+    setTransactions(txs);
+  };
+
   return (
-    <TransactionsContext.Provider value={{ transactions, addTransaction }}>
+    <TransactionsContext.Provider value={{ transactions, addTransaction, replaceAllTransactions }}>
       {children}
     </TransactionsContext.Provider>
   );

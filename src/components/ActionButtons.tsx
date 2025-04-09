@@ -7,9 +7,10 @@ import { theme } from '../styles/theme';
 interface ActionButtonsProps {
   transactions: Transaction[];
   onImport: (transactions: Transaction[]) => void;
+  onReplaceAll: (transactions: Transaction[]) => void;
 }
 
-const ActionButtons = ({ transactions, onImport }: ActionButtonsProps) => {
+const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsProps) => {
   const handleExport = async () => {
     if (transactions.length === 0) {
       Alert.alert('Nothing to export', 'You don\'t have any saved transactions.');
@@ -20,15 +21,21 @@ const ActionButtons = ({ transactions, onImport }: ActionButtonsProps) => {
   };
 
   const handleImport = async () => {
-    const imported = await importTransactions();
+    const result = await importTransactions(transactions);
 
-    if (!imported) {
+    if (!result.transactions) {
+      if (result.mode === 'cancel') {
+        // Usuário cancelou ou ocorreu um erro
+        return;
+      }
       Alert.alert('Import failed', 'Could not read the file or the file is invalid.');
       return;
     }
 
-    onImport(imported);
-    Alert.alert('Success', `${imported.length} transactions imported.`);
+    if (result.mode === 'replace') {
+      onReplaceAll(result.transactions);
+      Alert.alert('Success', `${result.transactions.length} transactions imported. Previous data was replaced.`);
+    }
   };
 
   return (

@@ -9,10 +9,14 @@ import TransactionHistory from '../components/TransactionHistory';
 import { Transaction } from '../types/Transaction';
 
 const HomeScreen = () => {
-  const { transactions, addTransaction } = useTransactions();
+  const { transactions, addTransaction, replaceAllTransactions } = useTransactions();
 
   const handleImportedTransactions = (importedTransactions: Transaction[]) => {
     importedTransactions.forEach(tx => addTransaction(tx));
+  };
+
+  const handleReplaceAllTransactions = (newTransactions: Transaction[]) => {
+    replaceAllTransactions(newTransactions);
   };
 
   const handleAddTransaction = (transaction: Transaction) => {
@@ -36,6 +40,7 @@ const HomeScreen = () => {
     <ActionButtons
       transactions={transactions}
       onImport={handleImportedTransactions}
+      onReplaceAll={handleReplaceAllTransactions}
     />
   );
 
