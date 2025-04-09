@@ -20,24 +20,24 @@ export const importTransactions = async (
 
     const importedTransactions = json as Transaction[];
 
-    // Se não há transações atuais, não precisamos perguntar
+    // If there are no current transactions, we don't need to ask
     if (currentTransactions.length === 0) {
       return { transactions: importedTransactions, mode: 'replace' };
     }
 
-    // Retornar uma Promise que será resolvida quando o usuário fizer uma escolha
+    // Return a Promise that will be resolved when the user makes a choice
     return new Promise((resolve) => {
       Alert.alert(
-        'Importar Transações',
-        'Esta ação substituirá todas as suas transações atuais pelos dados importados. Esta ação é irreversível.',
+        'Import Transactions',
+        'This action will replace all your current transactions with the imported data. This action is irreversible.',
         [
           {
-            text: 'Cancelar',
+            text: 'Cancel',
             style: 'cancel',
             onPress: () => resolve({ transactions: null, mode: 'cancel' })
           },
           {
-            text: 'Substituir',
+            text: 'Replace',
             style: 'destructive',
             onPress: () => resolve({ transactions: importedTransactions, mode: 'replace' })
           }
