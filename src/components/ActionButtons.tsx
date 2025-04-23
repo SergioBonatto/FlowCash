@@ -69,12 +69,20 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 1,
+    shadowColor: theme.colors.dark,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
+    elevation: 2,
   },
   exportButton: {
     backgroundColor: theme.colors.primary,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   importButton: {
     backgroundColor: theme.colors.secondary,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   buttonText: {
     color: 'white',

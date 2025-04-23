@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, FlatList, ListRenderItem } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { Transaction } from '../types/Transaction';
 import { styles } from '../styles/TransactionHistory.styles';
 import { formatCurrency } from '../utils/formatCurrency';
 import { format } from 'date-fns';
+import { theme } from '../styles/theme';
 
 interface TransactionHistoryProps {
   transactions: Transaction[];
@@ -23,12 +25,10 @@ const TransactionHistory = ({
 
   const renderItem: ListRenderItem<Transaction> = ({ item }) => {
     return (
-      <View
-        style={[
-          styles.transactionItem,
-          item.type === 'income' ? styles.incomeItem : styles.expenseItem,
-        ]}
-      >
+      <BlurView intensity={theme.blur.light} tint="light" style={[
+        styles.transactionItem,
+        item.type === 'income' ? styles.incomeItem : styles.expenseItem,
+      ]}>
         <View style={styles.transactionInfo}>
           <Text style={styles.transactionTitle}>{item.title}</Text>
           <Text style={styles.transactionCategory}>{item.category}</Text>
@@ -45,7 +45,7 @@ const TransactionHistory = ({
           {item.type === 'expense' ? '-' : '+'}
           {formatCurrency(item.amount)}
         </Text>
-      </View>
+      </BlurView>
     );
   };
 

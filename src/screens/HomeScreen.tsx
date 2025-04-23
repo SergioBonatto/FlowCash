@@ -1,6 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import { BlurView } from 'expo-blur';
+import { View, StatusBar, SafeAreaView, ImageBackground } from 'react-native';
 import { styles } from '../styles/HomeScreen.styles';
+import { theme } from '../styles/theme';
 import { useTransactions } from '../context/TransactionsContext';
 import Header from '../components/Header';
 import ActionButtons from '../components/ActionButtons';
@@ -23,43 +25,59 @@ const HomeScreen = () => {
     addTransaction(transaction);
   };
 
-  // Header component, already rendered (not a function that returns a component anymore)
+  // Header component com efeito glasmórfico
   const HeaderComponent = (
-    <View>
-      <Header
-        title="Welcome to FlowCash"
-        subtitle="Manage your home finances easily."
-      />
+    <BlurView intensity={theme.blur.medium} tint="light" style={styles.blurContainer}>
+      <View style={styles.headerContent}>
+        <Header
+          title="Welcome to FlowCash"
+          subtitle="Manage your home finances easily."
+        />
 
-      <AddTransaction onAddTransaction={handleAddTransaction} />
-    </View>
+        <AddTransaction onAddTransaction={handleAddTransaction} />
+      </View>
+    </BlurView>
   );
 
-  // Footer component, already rendered
+  // Footer component com efeito glasmórfico
   const FooterComponent = (
-    <ActionButtons
-      transactions={transactions}
-      onImport={handleImportedTransactions}
-      onReplaceAll={handleReplaceAllTransactions}
-    />
+    <BlurView intensity={theme.blur.light} tint="light" style={styles.blurContainer}>
+      <View style={styles.footerContent}>
+        <ActionButtons
+          transactions={transactions}
+          onImport={handleImportedTransactions}
+          onReplaceAll={handleReplaceAllTransactions}
+        />
+      </View>
+    </BlurView>
   );
 
   return (
-    <View style={styles.container}>
-      {transactions.length === 0 ? (
-        <View>
-          {HeaderComponent}
-          <TransactionHistory transactions={[]} />
-          {FooterComponent}
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" translucent backgroundColor="transparent" />
+      <ImageBackground
+        source={require('../../assets/background.png')}
+        style={styles.backgroundImage}
+      >
+        <View style={styles.container}>
+          {transactions.length === 0 ? (
+            <View style={styles.contentContainer}>
+              {HeaderComponent}
+              <BlurView intensity={theme.blur.light} tint="light" style={styles.emptyStateContainer}>
+                <TransactionHistory transactions={[]} />
+              </BlurView>
+              {FooterComponent}
+            </View>
+          ) : (
+            <TransactionHistory
+              transactions={transactions}
+              ListHeaderComponent={HeaderComponent}
+              ListFooterComponent={FooterComponent}
+            />
+          )}
         </View>
-      ) : (
-        <TransactionHistory
-          transactions={transactions}
-          ListHeaderComponent={HeaderComponent}
-          ListFooterComponent={FooterComponent}
-        />
-      )}
-    </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

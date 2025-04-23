@@ -21,8 +21,20 @@
         "backgroundColor": "#ffffff"
       }
     },
+    "dev": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/your-project-id"
     }
   }
 }
