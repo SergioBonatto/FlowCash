@@ -1,9 +1,12 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { Transaction } from '../types/Transaction';
 import { Alert } from 'react-native';
+import { translations } from '../localization/translations';
+import { LanguageCode } from '../context/PreferencesContext';
 
 export const importTransactions = async (
-  currentTransactions: Transaction[] = []
+  currentTransactions: Transaction[] = [],
+  language: LanguageCode = 'en'
 ): Promise<{ transactions: Transaction[] | null; mode: 'replace' | 'merge' | 'cancel' }> => {
   try {
     const result = await DocumentPicker.getDocumentAsync({ type: 'application/json' });
@@ -25,19 +28,21 @@ export const importTransactions = async (
       return { transactions: importedTransactions, mode: 'replace' };
     }
 
+    const t = (key: string) => translations[language][key] || translations['en'][key];
+
     // Return a Promise that will be resolved when the user makes a choice
     return new Promise((resolve) => {
       Alert.alert(
-        'Import Transactions',
-        'This action will replace all your current transactions with the imported data. This action is irreversible.',
+        t('dialog.title'),
+        t('dialog.message'),
         [
           {
-            text: 'Cancel',
+            text: t('dialog.cancel'),
             style: 'cancel',
             onPress: () => resolve({ transactions: null, mode: 'cancel' })
           },
           {
-            text: 'Replace',
+            text: t('dialog.replace'),
             style: 'destructive',
             onPress: () => resolve({ transactions: importedTransactions, mode: 'replace' })
           }

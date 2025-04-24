@@ -27,7 +27,6 @@ const HomeScreen = () => {
     addTransaction(transaction);
   };
 
-  // Header component com efeito glasmórfico
   const HeaderComponent = (
     <BlurView intensity={theme.blur.medium} tint="light" style={styles.blurContainer}>
       <View style={styles.headerContent}>
@@ -37,7 +36,6 @@ const HomeScreen = () => {
     </BlurView>
   );
 
-  // Footer component com efeito glasmórfico
   const FooterComponent = (
     <BlurView intensity={theme.blur.light} tint="light" style={styles.blurContainer}>
       <View style={styles.footerContent}>

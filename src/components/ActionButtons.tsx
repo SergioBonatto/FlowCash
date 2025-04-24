@@ -13,7 +13,7 @@ interface ActionButtonsProps {
 }
 
 const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsProps) => {
-  const { translate } = usePreferences();
+  const { translate, preferences } = usePreferences();
 
   const handleExport = async () => {
     if (transactions.length === 0) {
@@ -25,7 +25,7 @@ const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsPr
   };
 
   const handleImport = async () => {
-    const result = await importTransactions(transactions);
+    const result = await importTransactions(transactions, preferences.language);
 
     if (!result.transactions) {
       if (result.mode === 'cancel') {

@@ -1,11 +1,9 @@
 import { LanguageCode } from '../context/PreferencesContext';
 
-// Interface para tipagem das traduções
 interface TranslationKeys {
   [key: string]: string;
 }
 
-// Traduções organizadas por idioma
 export const translations: Record<LanguageCode, TranslationKeys> = {
   'en': {
     'welcome': 'Welcome to FlowCash',
@@ -68,13 +66,63 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'dialog.replace': 'Substituir',
   },
   'es': {
-    // Traduções em espanhol
     'welcome': 'Bienvenido a FlowCash',
-    // Adicione mais traduções conforme necessário
+    'welcome.subtitle': 'Gestiona tus finanzas domésticas fácilmente.',
+    'transaction.history': 'Historial de Transacciones',
+    'transaction.new': 'Nueva Transacción',
+    'transaction.title': 'Título',
+    'transaction.amount': 'Monto',
+    'transaction.category': 'Categoría (opcional)',
+    'transaction.income': 'Ingreso',
+    'transaction.expense': 'Gasto',
+    'transaction.save': 'Guardar',
+    'transaction.empty': 'Aún no hay transacciones registradas',
+    'action.export': 'Exportar datos',
+    'action.import': 'Importar datos',
+    'error.connection': 'Error de Conexión',
+    'error.server': 'Por favor, comprueba si el servidor Expo está ejecutándose en 127.0.0.1:8081',
+    'error.restart': 'Intenta detener y reiniciar tu servidor Expo con:',
+    'loading': 'Cargando FlowCash...',
+    'settings': 'Configuración',
+    'settings.language': 'Idioma',
+    'settings.currency': 'Moneda',
+    'settings.save': 'Guardar Cambios',
+    'import.success': 'Se importaron {{count}} transacciones. Se reemplazaron los datos anteriores.',
+    'import.fail': 'No se pudo leer el archivo o el archivo no es válido.',
+    'export.empty': 'No tienes transacciones guardadas.',
+    'dialog.title': 'Importar Transacciones',
+    'dialog.message': 'Esta acción reemplazará todas tus transacciones actuales con los datos importados. Esta acción es irreversible.',
+    'dialog.cancel': 'Cancelar',
+    'dialog.replace': 'Reemplazar',
   },
   'fr': {
-    // Traduções em francês
     'welcome': 'Bienvenue à FlowCash',
-    // Adicione mais traduções conforme necessário
+    'welcome.subtitle': 'Gérez facilement vos finances domestiques.',
+    'transaction.history': 'Historique des Transactions',
+    'transaction.new': 'Nouvelle Transaction',
+    'transaction.title': 'Titre',
+    'transaction.amount': 'Montant',
+    'transaction.category': 'Catégorie (facultatif)',
+    'transaction.income': 'Revenu',
+    'transaction.expense': 'Dépense',
+    'transaction.save': 'Enregistrer',
+    'transaction.empty': 'Aucune transaction enregistrée pour le moment',
+    'action.export': 'Exporter les données',
+    'action.import': 'Importer les données',
+    'error.connection': 'Erreur de Connexion',
+    'error.server': 'Veuillez vérifier si le serveur Expo fonctionne sur 127.0.0.1:8081',
+    'error.restart': 'Essayez d\'arrêter et de redémarrer votre serveur Expo avec:',
+    'loading': 'Chargement de FlowCash...',
+    'settings': 'Paramètres',
+    'settings.language': 'Langue',
+    'settings.currency': 'Devise',
+    'settings.save': 'Enregistrer les Modifications',
+    'import.success': '{{count}} transactions importées. Les données précédentes ont été remplacées.',
+    'import.fail': 'Impossible de lire le fichier ou le fichier est invalide.',
+    'export.empty': 'Vous n\'avez aucune transaction enregistrée.',
+    'dialog.title': 'Importer des Transactions',
+    'dialog.message': 'Cette action remplacera toutes vos transactions actuelles par les données importées. Cette action est irréversible.',
+    'dialog.cancel': 'Annuler',
+    'dialog.replace': 'Remplacer',
   }
 };
