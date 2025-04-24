@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 50,
   },
-  // Estilos para o seletor customizado
+  // Styles for custom selector
   selectButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
     borderRadius: theme.radius.sm,
@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     fontSize: theme.fontSize.body,
     color: theme.colors.text,
   },
-  // Estilos para o modal
+  // Styles for modal
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -67,8 +67,8 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.card,
     borderTopLeftRadius: theme.radius.lg,
     borderTopRightRadius: theme.radius.lg,
-    paddingBottom: 20, // Para evitar problemas com o notch em iPhones
-    maxHeight: height * 0.7, // Limitar a altura máxima
+    paddingBottom: 20, // To avoid issues with notch on iPhones
+    maxHeight: height * 0.7, // Limit maximum height
   },
   modalHeader: {
     flexDirection: 'row',

@@ -3,19 +3,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { I18n } from '../localization/i18n';
 
 
-// Tipos de moedas disponíveis
+// Available currency types
 export type CurrencyCode = 'USD' | 'BRL' | 'EUR' | 'GBP';
 
-// Tipos de idiomas disponíveis
+// Available language types
 export type LanguageCode = 'en' | 'pt-BR' | 'es' | 'fr';
 
-// Estrutura das preferências do usuário
+// User preferences structure
 interface UserPreferences {
   currency: CurrencyCode;
   language: LanguageCode;
 }
 
-// Interface do contexto
+// Context interface
 interface PreferencesContextProps {
   preferences: UserPreferences;
   setCurrency: (currency: CurrencyCode) => void;
@@ -23,13 +23,13 @@ interface PreferencesContextProps {
   translate: (key: string, params?: Record<string, string>) => string;
 }
 
-// Valores padrão
+// Default values
 const DEFAULT_PREFERENCES: UserPreferences = {
   currency: 'USD',
   language: 'en'
 };
 
-// Chaves do AsyncStorage
+// AsyncStorage keys
 const STORAGE_KEY_PREFERENCES = 'flowcash:preferences';
 
 const PreferencesContext = createContext<PreferencesContextProps | undefined>(undefined);
@@ -39,7 +39,7 @@ export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
   const [i18n, setI18n] = useState<I18n>(new I18n(DEFAULT_PREFERENCES.language));
   const [isLoading, setIsLoading] = useState(true);
 
-  // Carregar preferências ao iniciar
+  // Load preferences on startup
   useEffect(() => {
     const loadPreferences = async () => {
       try {
@@ -50,7 +50,7 @@ export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
           setI18n(new I18n(userPrefs.language));
         }
       } catch (error) {
-        console.error('Erro ao carregar preferências:', error);
+        console.error('Error loading preferences:', error);
       } finally {
         setIsLoading(false);
       }
@@ -59,25 +59,25 @@ export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
     loadPreferences();
   }, []);
 
-  // Salvar preferências quando mudarem
+  // Save preferences when changed
   useEffect(() => {
     if (!isLoading) {
       AsyncStorage.setItem(STORAGE_KEY_PREFERENCES, JSON.stringify(preferences));
     }
   }, [preferences, isLoading]);
 
-  // Atualizar a moeda
+  // Update currency
   const setCurrency = (currency: CurrencyCode) => {
     setPreferences(prev => ({ ...prev, currency }));
   };
 
-  // Atualizar o idioma
+  // Update language
   const setLanguage = (language: LanguageCode) => {
     setPreferences(prev => ({ ...prev, language }));
     setI18n(new I18n(language));
   };
 
-  // Traduzir texto
+  // Translate text
   const translate = (key: string, params?: Record<string, string>) => {
     return i18n.t(key, params);
   };
@@ -89,11 +89,11 @@ export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Hook para usar o contexto
+// Hook to use the context
 export const usePreferences = () => {
   const context = useContext(PreferencesContext);
   if (!context) {
-    throw new Error('usePreferences deve ser usado dentro de um PreferencesProvider');
+    throw new Error('usePreferences must be used within a PreferencesProvider');
   }
   return context;
 };

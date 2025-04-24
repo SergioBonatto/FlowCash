@@ -1,29 +1,29 @@
 export const theme = {
   colors: {
-    // Cores principais com transparência para efeito de vidro
+    // Main colors with transparency for glass effect
     primary: 'rgba(0, 122, 255, 0.9)',
     secondary: 'rgba(90, 200, 250, 0.9)',
     success: 'rgba(52, 199, 89, 0.9)',
     danger: 'rgba(255, 59, 48, 0.9)',
     warning: 'rgba(255, 149, 0, 0.9)',
 
-    // Cores de fundo com desfoque
+    // Background colors with blur
     dark: 'rgba(28, 28, 30, 0.85)',
     background: 'rgba(242, 242, 247, 0.6)',
     card: 'rgba(255, 255, 255, 0.7)',
 
-    // Cores neutras para texto e detalhes
+    // Neutral colors for text and details
     text: 'rgba(0, 0, 0, 0.85)',
     subText: 'rgba(109, 109, 114, 0.75)',
     grey: 'rgba(142, 142, 147, 0.65)',
     lightGrey: 'rgba(209, 209, 214, 0.5)',
 
-    // Bordas sutis para elemento glassmórfico
+    // Subtle borders for glassmorphic elements
     borderLight: 'rgba(255, 255, 255, 0.3)',
     borderDark: 'rgba(0, 0, 0, 0.05)',
   },
 
-  // Sombras suaves para efeito glasmórfico
+  // Soft shadows for glassmorphic effect
   shadows: {
     small: {
       shadowColor: '#000',
@@ -48,7 +48,7 @@ export const theme = {
     },
   },
 
-  // Valores de desfoque para diferentes camadas
+  // Blur values for different layers
   blur: {
     light: 15,
     medium: 25,
@@ -63,7 +63,7 @@ export const theme = {
     xl: 32,
   },
 
-  // Bordas mais suaves para estilo glasmórfico
+  // Softer borders for glassmorphic style
   radius: {
     sm: 12,
     md: 16,

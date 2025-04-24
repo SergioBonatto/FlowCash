@@ -27,7 +27,7 @@ const HomeScreen = () => {
     addTransaction(transaction);
   };
 
-  // Componente Header com mensagem de boas-vindas apenas para o estado vazio
+  // Header component with welcome message only for empty state
   const EmptyStateHeaderComponent = (
     <BlurView intensity={theme.blur.medium} tint="light" style={styles.blurContainer}>
       <View style={styles.headerContent}>
@@ -37,7 +37,7 @@ const HomeScreen = () => {
     </BlurView>
   );
 
-  // Componente Header sem a mensagem de boas-vindas quando já existem transações
+  // Header component without welcome message when transactions exist
   const TransactionsHeaderComponent = (
     <BlurView intensity={theme.blur.medium} tint="light" style={styles.blurContainer}>
       <View style={styles.headerContent}>
