@@ -27,10 +27,20 @@ const HomeScreen = () => {
     addTransaction(transaction);
   };
 
-  const HeaderComponent = (
+  // Componente Header com mensagem de boas-vindas apenas para o estado vazio
+  const EmptyStateHeaderComponent = (
     <BlurView intensity={theme.blur.medium} tint="light" style={styles.blurContainer}>
       <View style={styles.headerContent}>
         <Header />
+        <AddTransaction onAddTransaction={handleAddTransaction} />
+      </View>
+    </BlurView>
+  );
+
+  // Componente Header sem a mensagem de boas-vindas quando já existem transações
+  const TransactionsHeaderComponent = (
+    <BlurView intensity={theme.blur.medium} tint="light" style={styles.blurContainer}>
+      <View style={styles.headerContent}>
         <AddTransaction onAddTransaction={handleAddTransaction} />
       </View>
     </BlurView>
@@ -58,7 +68,7 @@ const HomeScreen = () => {
         <View style={styles.container}>
           {transactions.length === 0 ? (
             <View style={styles.contentContainer}>
-              {HeaderComponent}
+              {EmptyStateHeaderComponent}
               <BlurView intensity={theme.blur.light} tint="light" style={styles.emptyStateContainer}>
                 <TransactionHistory transactions={[]} />
               </BlurView>
@@ -67,7 +77,7 @@ const HomeScreen = () => {
           ) : (
             <TransactionHistory
               transactions={transactions}
-              ListHeaderComponent={HeaderComponent}
+              ListHeaderComponent={TransactionsHeaderComponent}
               ListFooterComponent={FooterComponent}
             />
           )}
