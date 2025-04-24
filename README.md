@@ -1,7 +1,8 @@
 Coletando informações do workspace# FlowCash - Modern Financial Tracking App
 
-<img src="assets/icon.png" alt="FlowCash Logo" width="100" />
-
+<div align="center">
+  <img src="assets/icon.png" alt="FlowCash Logo" width="200" />
+</div>
 **FlowCash** is a sophisticated mobile application designed to help users manage personal finances with elegance and efficiency. Built with **React Native** and **Expo**, FlowCash delivers a premium user experience through its modern **glassmorphism-inspired UI** and robust financial management capabilities.
 
 ---
