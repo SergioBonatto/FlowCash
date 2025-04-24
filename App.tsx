@@ -27,21 +27,19 @@ export default function App() {
     checkConnection();
   }, []);
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (hasError) {
-    return <ErrorScreen />;
-  }
-
   return (
     <PreferencesProvider>
-      <TransactionsProvider>
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
-      </TransactionsProvider>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : hasError ? (
+        <ErrorScreen />
+      ) : (
+        <TransactionsProvider>
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+        </TransactionsProvider>
+      )}
     </PreferencesProvider>
   );
 }
