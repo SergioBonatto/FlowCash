@@ -1,4 +1,4 @@
-# FlowCash
+# FlowCash (WIP)
 
 <div align="center">
   <img src="assets/icon.png" alt="FlowCash Logo" width="200" />
