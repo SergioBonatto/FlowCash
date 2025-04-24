@@ -6,6 +6,7 @@ import { styles } from '../styles/TransactionHistory.styles';
 import { formatCurrency } from '../utils/formatCurrency';
 import { format } from 'date-fns';
 import { theme } from '../styles/theme';
+import { usePreferences } from '../context/PreferencesContext';
 
 interface TransactionHistoryProps {
   transactions: Transaction[];
@@ -18,6 +19,8 @@ const TransactionHistory = ({
   ListHeaderComponent,
   ListFooterComponent
 }: TransactionHistoryProps) => {
+  const { preferences, translate } = usePreferences();
+
   // Sort transactions from newest to oldest
   const sortedTransactions = [...transactions].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -43,7 +46,7 @@ const TransactionHistory = ({
           ]}
         >
           {item.type === 'expense' ? '-' : '+'}
-          {formatCurrency(item.amount)}
+          {formatCurrency(item.amount, preferences.currency)}
         </Text>
       </BlurView>
     );
@@ -51,14 +54,14 @@ const TransactionHistory = ({
 
   const EmptyListComponent = () => (
     <View style={styles.container}>
-      <Text style={styles.title}>Transaction History</Text>
-      <Text style={styles.noTransactions}>No transactions recorded yet</Text>
+      <Text style={styles.title}>{translate('transaction.history')}</Text>
+      <Text style={styles.noTransactions}>{translate('transaction.empty')}</Text>
     </View>
   );
 
   const HeaderTitle = () => (
     <View style={styles.container}>
-      <Text style={styles.title}>Transaction History</Text>
+      <Text style={styles.title}>{translate('transaction.history')}</Text>
     </View>
   );
 

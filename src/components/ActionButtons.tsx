@@ -1,8 +1,10 @@
-import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import { exportTransactions } from '../services/export';
 import { importTransactions } from '../services/import';
 import { Transaction } from '../types/Transaction';
 import { theme } from '../styles/theme';
+import { styles } from '../styles/ActionButtons.styles';
+import { usePreferences } from '../context/PreferencesContext';
 
 interface ActionButtonsProps {
   transactions: Transaction[];
@@ -11,9 +13,11 @@ interface ActionButtonsProps {
 }
 
 const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsProps) => {
+  const { translate } = usePreferences();
+
   const handleExport = async () => {
     if (transactions.length === 0) {
-      Alert.alert('Nothing to export', 'You don\'t have any saved transactions.');
+      Alert.alert(translate('export.empty'));
       return;
     }
 
@@ -25,16 +29,18 @@ const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsPr
 
     if (!result.transactions) {
       if (result.mode === 'cancel') {
-        // Usuário cancelou ou ocorreu um erro
         return;
       }
-      Alert.alert('Import failed', 'Could not read the file or the file is invalid.');
+      Alert.alert(translate('dialog.title'), translate('import.fail'));
       return;
     }
 
     if (result.mode === 'replace') {
       onReplaceAll(result.transactions);
-      Alert.alert('Success', `${result.transactions.length} transactions imported. Previous data was replaced.`);
+      Alert.alert(
+        translate('dialog.title'),
+        translate('import.success', { count: result.transactions.length.toString() })
+      );
     }
   };
 
@@ -44,7 +50,7 @@ const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsPr
         style={[styles.button, styles.exportButton]}
         onPress={handleExport}
       >
-        <Text style={styles.buttonText}>Export data</Text>
+        <Text style={styles.buttonText}>{translate('action.export')}</Text>
       </TouchableOpacity>
 
       <View style={{ height: theme.spacing.md }} />
@@ -53,42 +59,10 @@ const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsPr
         style={[styles.button, styles.importButton]}
         onPress={handleImport}
       >
-        <Text style={styles.buttonText}>Import data</Text>
+        <Text style={styles.buttonText}>{translate('action.import')}</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    marginVertical: theme.spacing.md,
-  },
-  button: {
-    borderRadius: theme.radius.sm,
-    padding: theme.spacing.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    shadowColor: theme.colors.dark,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
-    elevation: 2,
-  },
-  exportButton: {
-    backgroundColor: theme.colors.primary,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-  },
-  importButton: {
-    backgroundColor: theme.colors.secondary,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: theme.fontWeight.medium,
-    fontSize: theme.fontSize.body,
-  },
-});
 
 export default ActionButtons;

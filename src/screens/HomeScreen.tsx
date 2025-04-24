@@ -9,9 +9,11 @@ import ActionButtons from '../components/ActionButtons';
 import AddTransaction from '../components/AddTransaction';
 import TransactionHistory from '../components/TransactionHistory';
 import { Transaction } from '../types/Transaction';
+import { usePreferences } from '../context/PreferencesContext';
 
 const HomeScreen = () => {
   const { transactions, addTransaction, replaceAllTransactions } = useTransactions();
+  const { translate } = usePreferences();
 
   const handleImportedTransactions = (importedTransactions: Transaction[]) => {
     importedTransactions.forEach(tx => addTransaction(tx));
@@ -29,11 +31,7 @@ const HomeScreen = () => {
   const HeaderComponent = (
     <BlurView intensity={theme.blur.medium} tint="light" style={styles.blurContainer}>
       <View style={styles.headerContent}>
-        <Header
-          title="Welcome to FlowCash"
-          subtitle="Manage your home finances easily."
-        />
-
+        <Header />
         <AddTransaction onAddTransaction={handleAddTransaction} />
       </View>
     </BlurView>

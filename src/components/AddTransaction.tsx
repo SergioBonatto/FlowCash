@@ -3,12 +3,14 @@ import { View, TextInput, Text, TouchableOpacity, Pressable } from 'react-native
 import { Transaction } from '../types/Transaction';
 import { styles } from '../styles/AddTransaction.styles';
 import { theme } from '../styles/theme';
+import { usePreferences } from '../context/PreferencesContext';
 
 interface AddTransactionProps {
   onAddTransaction: (transaction: Transaction) => void;
 }
 
 const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
+  const { translate } = usePreferences();
   const [amount, setAmount] = useState('');
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
@@ -37,11 +39,11 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>New Transaction</Text>
+      <Text style={styles.title}>{translate('transaction.new')}</Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Title"
+        placeholder={translate('transaction.title')}
         value={title}
         onChangeText={setTitle}
         placeholderTextColor={theme.colors.grey}
@@ -49,7 +51,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Amount"
+        placeholder={translate('transaction.amount')}
         value={amount}
         onChangeText={setAmount}
         keyboardType="numeric"
@@ -58,7 +60,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Category (optional)"
+        placeholder={translate('transaction.category')}
         value={category}
         onChangeText={setCategory}
         placeholderTextColor={theme.colors.grey}
@@ -77,7 +79,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
             textAlign: 'center',
             fontWeight: theme.fontWeight.medium
           }}>
-            Income
+            {translate('transaction.income')}
           </Text>
         </Pressable>
 
@@ -95,13 +97,13 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
             textAlign: 'center',
             fontWeight: theme.fontWeight.medium
           }}>
-            Expense
+            {translate('transaction.expense')}
           </Text>
         </Pressable>
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Save</Text>
+        <Text style={styles.saveButtonText}>{translate('transaction.save')}</Text>
       </TouchableOpacity>
     </View>
   );
