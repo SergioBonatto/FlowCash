@@ -7,7 +7,7 @@ import { I18n } from '../localization/i18n';
 export type CurrencyCode = 'USD' | 'BRL' | 'EUR' | 'GBP';
 
 // Available language types
-export type LanguageCode = 'en' | 'pt-BR' | 'es' | 'fr';
+export type LanguageCode = 'en' | 'pt-BR' | 'pt-PT' | 'es' | 'fr' | 'de' | 'it' | 'ja' | 'zh-CN' | 'ru';
 
 // User preferences structure
 interface UserPreferences {

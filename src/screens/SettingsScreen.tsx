@@ -21,8 +21,14 @@ const SettingsScreen = () => {
   const languages: { label: string, value: LanguageCode }[] = [
     { label: 'English', value: 'en' },
     { label: 'Português (Brasil)', value: 'pt-BR' },
+    { label: 'Português (Guiana Brasileira/Faixa de Gajos)', value: 'pt-PT' },
     { label: 'Español', value: 'es' },
-    { label: 'Français', value: 'fr' }
+    { label: 'Français', value: 'fr' },
+    { label: 'Deutsch', value: 'de' },
+    { label: 'Italiano', value: 'it' },
+    { label: '日本語', value: 'ja' },
+    { label: '中文 (简体)', value: 'zh-CN' },
+    { label: 'Русский', value: 'ru' }
   ];
 
   const openModal = (type: 'language' | 'currency') => {
