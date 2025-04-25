@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import RootNavigator from './src/navigation';
-import { TransactionsProvider } from './src/context/TransactionsContext';
-import { PreferencesProvider } from './src/context/PreferencesContext';
-import LoadingScreen from './src/components/LoadingScreen';
-import ErrorScreen from './src/components/ErrorScreen';
-import { AppState, ConnectionResult } from './src/types/AppTypes';
+import RootNavigator from './navigation';
+import { TransactionsProvider } from './context/TransactionsContext';
+import { PreferencesProvider } from './context/PreferencesContext';
+import LoadingScreen from './components/LoadingScreen';
+import ErrorScreen from './components/ErrorScreen';
+import { AppState, ConnectionResult } from './types/AppTypes';
 
 const App: React.FC = () => {
   const [state, setState] = useState<AppState>({
