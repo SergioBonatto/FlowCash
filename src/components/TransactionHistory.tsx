@@ -2,17 +2,12 @@ import React from 'react';
 import { View, Text, FlatList, ListRenderItem } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Transaction } from '../types/Transaction';
+import { TransactionHistoryProps } from '../types/TransactionTypes';
 import { styles } from '../styles/TransactionHistory.styles';
 import { formatCurrency } from '../utils/formatCurrency';
 import { format } from 'date-fns';
 import { theme } from '../styles/theme';
 import { usePreferences } from '../context/PreferencesContext';
-
-interface TransactionHistoryProps {
-  transactions: Transaction[];
-  ListHeaderComponent?: React.ComponentType<any> | React.ReactElement | null;
-  ListFooterComponent?: React.ComponentType<any> | React.ReactElement | null;
-}
 
 const TransactionHistory = ({
   transactions,

@@ -1,11 +1,7 @@
 import { View, Text } from 'react-native';
 import { styles } from '../styles/HomeScreen.styles';
 import { usePreferences } from '../context/PreferencesContext';
-
-interface HeaderProps {
-  title?: string;
-  subtitle?: string;
-}
+import { HeaderProps } from '../types/ComponentsTypes';
 
 const Header = ({ title, subtitle }: HeaderProps) => {
   const { translate } = usePreferences();

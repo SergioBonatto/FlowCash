@@ -1,26 +1,28 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from './src/navigation';
 import { TransactionsProvider } from './src/context/TransactionsContext';
 import { PreferencesProvider } from './src/context/PreferencesContext';
 import LoadingScreen from './src/components/LoadingScreen';
 import ErrorScreen from './src/components/ErrorScreen';
+import { AppState, ConnectionResult } from './src/types/AppTypes';
 
-export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+const App: React.FC = () => {
+  const [state, setState] = useState<AppState>({
+    isLoading: true,
+    hasError: false
+  });
 
   useEffect(() => {
     // Check if the app can connect to the development server
-    const checkConnection = async () => {
+    const checkConnection = async (): Promise<void> => {
       try {
         // Wait a moment to ensure the bundler has time to initialize
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setIsLoading(false);
+        await new Promise<void>((resolve) => setTimeout(resolve, 2000));
+        setState(prevState => ({ ...prevState, isLoading: false }));
       } catch (error) {
         console.error('Error initializing app:', error);
-        setHasError(true);
-        setIsLoading(false);
+        setState({ isLoading: false, hasError: true });
       }
     };
 
@@ -29,9 +31,9 @@ export default function App() {
 
   return (
     <PreferencesProvider>
-      {isLoading ? (
+      {state.isLoading ? (
         <LoadingScreen />
-      ) : hasError ? (
+      ) : state.hasError ? (
         <ErrorScreen />
       ) : (
         <TransactionsProvider>
@@ -42,4 +44,6 @@ export default function App() {
       )}
     </PreferencesProvider>
   );
-}
+};
+
+export default App;

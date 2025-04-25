@@ -1,27 +1,13 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { I18n } from '../localization/i18n';
-
-
-// Available currency types
-export type CurrencyCode = 'USD' | 'BRL' | 'EUR' | 'GBP';
-
-// Available language types
-export type LanguageCode = 'en' | 'pt-BR' | 'pt-PT' | 'es' | 'fr' | 'de' | 'it' | 'ja' | 'zh-CN' | 'ru';
-
-// User preferences structure
-interface UserPreferences {
-  currency: CurrencyCode;
-  language: LanguageCode;
-}
-
-// Context interface
-interface PreferencesContextProps {
-  preferences: UserPreferences;
-  setCurrency: (currency: CurrencyCode) => void;
-  setLanguage: (language: LanguageCode) => void;
-  translate: (key: string, params?: Record<string, string>) => string;
-}
+import {
+  CurrencyCode,
+  LanguageCode,
+  UserPreferences,
+  PreferencesContextProps,
+  PreferencesProviderProps
+} from '../types/ContextTypes';
 
 // Default values
 const DEFAULT_PREFERENCES: UserPreferences = {
@@ -34,10 +20,11 @@ const STORAGE_KEY_PREFERENCES = 'flowcash:preferences';
 
 const PreferencesContext = createContext<PreferencesContextProps | undefined>(undefined);
 
-export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
+export const PreferencesProvider: React.FC<PreferencesProviderProps> = ({ children }) => {
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_PREFERENCES);
   const [i18n, setI18n] = useState<I18n>(new I18n(DEFAULT_PREFERENCES.language));
   const [isLoading, setIsLoading] = useState(true);
+
 
   // Load preferences on startup
   useEffect(() => {
@@ -82,6 +69,7 @@ export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
     return i18n.t(key, params);
   };
 
+
   return (
     <PreferencesContext.Provider value={{ preferences, setCurrency, setLanguage, translate }}>
       {children}
@@ -89,11 +77,12 @@ export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Hook to use the context
-export const usePreferences = () => {
+export const usePreferences = (): PreferencesContextProps => {
   const context = useContext(PreferencesContext);
   if (!context) {
     throw new Error('usePreferences must be used within a PreferencesProvider');
   }
   return context;
 };
+
+export { CurrencyCode, LanguageCode };

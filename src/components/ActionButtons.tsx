@@ -1,16 +1,11 @@
 import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import { exportTransactions } from '../services/export';
 import { importTransactions } from '../services/import';
-import { Transaction } from '../types/Transaction';
 import { theme } from '../styles/theme';
 import { styles } from '../styles/ActionButtons.styles';
 import { usePreferences } from '../context/PreferencesContext';
+import { ActionButtonsProps } from '../types/ComponentsTypes';
 
-interface ActionButtonsProps {
-  transactions: Transaction[];
-  onImport: (transactions: Transaction[]) => void;
-  onReplaceAll: (transactions: Transaction[]) => void;
-}
 
 const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsProps) => {
   const { translate, preferences } = usePreferences();

@@ -1,6 +1,6 @@
 import { LanguageCode } from '../context/PreferencesContext';
 
-interface TranslationKeys {
+type  TranslationKeys = {
   [key: string]: string;
 }
 

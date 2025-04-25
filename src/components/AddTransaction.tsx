@@ -4,10 +4,7 @@ import { Transaction } from '../types/Transaction';
 import { styles } from '../styles/AddTransaction.styles';
 import { theme } from '../styles/theme';
 import { usePreferences } from '../context/PreferencesContext';
-
-interface AddTransactionProps {
-  onAddTransaction: (transaction: Transaction) => void;
-}
+import { AddTransactionProps } from '../types/ComponentsTypes';
 
 const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
   const { translate } = usePreferences();
