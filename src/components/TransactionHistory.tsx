@@ -34,7 +34,6 @@ const TransactionHistory = ({
           text: translate('dialog.cancel'),
           style: 'cancel',
           onPress: () => {
-            // Fecha o componente swipeable
             swipeableRefs.current.get(id)?.close();
           }
         },
