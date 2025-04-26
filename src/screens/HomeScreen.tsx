@@ -12,8 +12,9 @@ import { Transaction } from '../types/Transaction';
 import { usePreferences } from '../context/PreferencesContext';
 
 const HomeScreen = () => {
-  const { transactions, addTransaction, replaceAllTransactions } = useTransactions();
+  const { transactions, addTransaction, replaceAllTransactions, deleteTransaction } = useTransactions();
   const { translate } = usePreferences();
+
 
   const handleImportedTransactions = (importedTransactions: Transaction[]) => {
     importedTransactions.forEach(tx => addTransaction(tx));
@@ -76,10 +77,11 @@ const HomeScreen = () => {
             </View>
           ) : (
             <TransactionHistory
-              transactions={transactions}
-              ListHeaderComponent={TransactionsHeaderComponent}
-              ListFooterComponent={FooterComponent}
-            />
+            transactions={transactions}
+            ListHeaderComponent={TransactionsHeaderComponent}
+            ListFooterComponent={FooterComponent}
+            onDeleteTransaction={deleteTransaction}
+          />
           )}
         </View>
       </ImageBackground>

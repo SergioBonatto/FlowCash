@@ -74,5 +74,14 @@ export const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: theme.spacing.md,
+  },
+  deleteButton: {
+    backgroundColor: theme.colors.danger,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    height: '100%',
+    borderTopRightRadius: theme.radius.md,
+    borderBottomRightRadius: theme.radius.md,
   }
 });

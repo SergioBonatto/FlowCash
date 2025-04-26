@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, FlatList, ListRenderItem } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, FlatList, ListRenderItem, TouchableOpacity, Alert } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Transaction } from '../types/Transaction';
 import { TransactionHistoryProps } from '../types/TransactionTypes';
@@ -8,42 +8,93 @@ import { formatCurrency } from '../utils/formatCurrency';
 import { format } from 'date-fns';
 import { theme } from '../styles/theme';
 import { usePreferences } from '../context/PreferencesContext';
+import { Swipeable } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 const TransactionHistory = ({
   transactions,
   ListHeaderComponent,
-  ListFooterComponent
+  ListFooterComponent,
+  onDeleteTransaction
 }: TransactionHistoryProps) => {
   const { preferences, translate } = usePreferences();
+  const swipeableRefs = useRef<Map<string, Swipeable>>(new Map());
 
   // Sort transactions from newest to oldest
   const sortedTransactions = [...transactions].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
+  const handleDelete = (id: string) => {
+    Alert.alert(
+      translate('dialog.delete.title'),
+      translate('dialog.delete.message'),
+      [
+        {
+          text: translate('dialog.cancel'),
+          style: 'cancel',
+          onPress: () => {
+            // Fecha o componente swipeable
+            swipeableRefs.current.get(id)?.close();
+          }
+        },
+        {
+          text: translate('dialog.delete'),
+          style: 'destructive',
+          onPress: () => {
+            onDeleteTransaction && onDeleteTransaction(id);
+          }
+        }
+      ]
+    );
+  };
+
+  const renderRightActions = (id: string) => {
+    return (
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() => handleDelete(id)}
+      >
+        <Ionicons name="trash-outline" size={24} color="white" />
+      </TouchableOpacity>
+    );
+  };
+
   const renderItem: ListRenderItem<Transaction> = ({ item }) => {
     return (
-      <BlurView intensity={theme.blur.light} tint="light" style={[
-        styles.transactionItem,
-        item.type === 'income' ? styles.incomeItem : styles.expenseItem,
-      ]}>
-        <View style={styles.transactionInfo}>
-          <Text style={styles.transactionTitle}>{item.title}</Text>
-          <Text style={styles.transactionCategory}>{item.category}</Text>
-          <Text style={styles.transactionDate}>
-            {format(new Date(item.date), 'dd/MM/yyyy HH:mm')}
+      <Swipeable
+        ref={(ref) => {
+          if (ref) {
+            swipeableRefs.current.set(item.id, ref);
+          } else {
+            swipeableRefs.current.delete(item.id);
+          }
+        }}
+        renderRightActions={() => renderRightActions(item.id)}
+        rightThreshold={40}
+      >
+        <BlurView intensity={theme.blur.light} tint="light" style={[
+          styles.transactionItem,
+          item.type === 'income' ? styles.incomeItem : styles.expenseItem,
+        ]}>
+          <View style={styles.transactionInfo}>
+            <Text style={styles.transactionTitle}>{item.title}</Text>
+            <Text style={styles.transactionCategory}>{item.category}</Text>
+            <Text style={styles.transactionDate}>
+              {format(new Date(item.date), 'dd/MM/yyyy HH:mm')}
+            </Text>
+          </View>
+          <Text
+            style={[
+              styles.transactionAmount,
+              item.type === 'income' ? styles.incomeAmount : styles.expenseAmount,
+            ]}
+          >
+            {item.type === 'expense' ? '-' : '+'}
+            {formatCurrency(item.amount, preferences.currency)}
           </Text>
-        </View>
-        <Text
-          style={[
-            styles.transactionAmount,
-            item.type === 'income' ? styles.incomeAmount : styles.expenseAmount,
-          ]}
-        >
-          {item.type === 'expense' ? '-' : '+'}
-          {formatCurrency(item.amount, preferences.currency)}
-        </Text>
-      </BlurView>
+        </BlurView>
+      </Swipeable>
     );
   };
 

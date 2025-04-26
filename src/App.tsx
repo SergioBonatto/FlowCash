@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RootNavigator from './navigation';
 import { TransactionsProvider } from './context/TransactionsContext';
 import { PreferencesProvider } from './context/PreferencesContext';
@@ -30,19 +31,21 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <PreferencesProvider>
-      {state.isLoading ? (
-        <LoadingScreen />
-      ) : state.hasError ? (
-        <ErrorScreen />
-      ) : (
-        <TransactionsProvider>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
-        </TransactionsProvider>
-      )}
-    </PreferencesProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PreferencesProvider>
+        {state.isLoading ? (
+          <LoadingScreen />
+        ) : state.hasError ? (
+          <ErrorScreen />
+        ) : (
+          <TransactionsProvider>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </TransactionsProvider>
+        )}
+      </PreferencesProvider>
+    </GestureHandlerRootView>
   );
 };
 
