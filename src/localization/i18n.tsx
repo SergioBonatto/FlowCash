@@ -2,11 +2,11 @@ import { LanguageCode } from '../context/PreferencesContext';
 import { translations } from './translations';
 import { pipe } from '../utils/functional';
 
-// Função pura para buscar uma tradução
+// Pure function to retrieve a translation
 const getTranslation = (language: LanguageCode, key: string): string =>
   translations[language][key] || translations.en[key] || key;
 
-// Função pura para aplicar parâmetros a uma string
+// Pure function to apply parameters to a string
 const applyParams = (text: string, params?: Record<string, string>): string => {
   if (!params) return text;
 
@@ -16,7 +16,7 @@ const applyParams = (text: string, params?: Record<string, string>): string => {
   );
 };
 
-// Compondo funções para criar a função de tradução
+// Composing functions to create the translation function
 export const createTranslator = (language: LanguageCode) =>
   (key: string, params?: Record<string, string>): string =>
     pipe(
@@ -25,7 +25,7 @@ export const createTranslator = (language: LanguageCode) =>
       (text: string) => applyParams(text, params)
     );
 
-// Classe I18n refatorada para ser mais funcional
+// I18n class refactored to be more functional
 export class I18n {
   private translate: (key: string, params?: Record<string, string>) => string;
 

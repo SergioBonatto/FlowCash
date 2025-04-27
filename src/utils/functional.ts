@@ -9,14 +9,14 @@ export function pipe(value: any, ...fns: Array<(arg: any) => any>): any {
   export const compose = <T>(...fns: Array<(arg: T) => T>) =>
     (value: T): T => fns.reduceRight((acc, fn) => fn(acc), value);
 
-  // Função para aplicar transformações condicionais
+  // Function to apply conditional transformations
   export const when = <T>(
     predicate: (value: T) => boolean,
     transform: (value: T) => T
   ) => (value: T): T =>
     predicate(value) ? transform(value) : value;
 
-  // Função para lidar com efeitos colaterais de forma mais controlada
+  // Function to handle side effects in a more controlled way
   export const tap = <T>(fn: (value: T) => void) => (value: T): T => {
     fn(value);
     return value;

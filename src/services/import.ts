@@ -9,17 +9,17 @@ import { pipe, tap } from '../utils/functional';
 type ImportMode = 'replace' | 'merge' | 'cancel';
 type ImportResult = { transactions: Transaction[] | null; mode: ImportMode };
 
-// Função pura para validar transações importadas
+// Pure function to validate imported transactions
 const validateTransactions = (data: any): Result<Transaction[]> => {
   if (!Array.isArray(data)) {
     return { success: false, data: { code: 400, msg: 'Not an array' } };
   }
 
-  // Validação mais profunda pode ser implementada aqui
+  // Deeper validation can be implemented here
   return { success: true, data: data as Transaction[] };
 };
 
-// Função pura para obter texto de tradução
+// Pure function to get translation text
 const getTranslation = (key: string, language: LanguageCode): string =>
   translations[language][key] || translations['en'][key];
 
@@ -35,7 +35,7 @@ export const importTransactions = async (
 
     const fileUri = result.assets[0].uri;
 
-    // Ler o arquivo e validar o conteúdo
+    // Read the file and validate its contents
     const fetchData = async (uri: string) => {
       const response = await fetch(uri);
       return await response.json();
@@ -50,12 +50,12 @@ export const importTransactions = async (
 
     const importedTransactions = importResult.data;
 
-    // Se não houver transações existentes, simplesmente retorne as importadas
+    // If there are no existing transactions, simply return the imported ones
     if (currentTransactions.length === 0) {
       return { transactions: importedTransactions, mode: 'replace' };
     }
 
-    // Retornar uma Promise para o diálogo de confirmação
+    // Return a Promise for the confirmation dialog
     return new Promise((resolve) => {
       const t = (key: string) => getTranslation(key, language);
 
@@ -78,7 +78,7 @@ export const importTransactions = async (
       );
     });
   } catch (error) {
-    console.error('Erro ao importar transações:', error);
+    console.error('Error importing transactions:', error);
     return { transactions: null, mode: 'cancel' };
   }
 };

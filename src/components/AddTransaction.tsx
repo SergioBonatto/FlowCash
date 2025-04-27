@@ -14,9 +14,9 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
   const [category, setCategory] = useState('');
   const [type, setType] = useState<TransactionType>('income');
 
-  // Funções puras para lidar com a entrada de usuário
+  // Pure functions to handle user input
   const normalizeAmount = (value: string): number => {
-    // Solução 1: usando pipe com tipos explícitos
+    // Solution 1: using pipe with explicit types
     return pipe<string, string, string, number>(
       value,
       (s: string) => s.replace(/[^\d.,]/g, ''),
@@ -45,7 +45,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
     date: new Date().toISOString(),
   });
 
-  // Funções de validação
+  // Validation functions
   const validateTitle = (title: string): boolean => Boolean(title.trim());
   const validateAmount = (amount: string): boolean => {
     const value = normalizeAmount(amount);
@@ -57,7 +57,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
   };
 
   const handleSave = () => {
-    // Validações
+    // Validations
     if (!validateTitle(title)) {
       Alert.alert(translate('error.title'), translate('error.titleRequired'));
       return;
@@ -71,7 +71,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
       return;
     }
 
-    // Criar a transação primeiro
+    // Create the transaction first
     const transaction = createTransaction(
       title,
       normalizeAmount(amount),
@@ -79,17 +79,17 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
       category
     );
 
-    // Adicionar à lista
+    // Add to the list
     onAddTransaction(transaction);
 
-    // Limpar campos
+    // Clear fields
     setTitle('');
     setAmount('');
     setCategory('');
     setType('income');
   };
 
-  // Render helper para o botão de tipo
+  // Render helper for the type button
   const renderTypeButton = (buttonType: TransactionType, label: string) => (
     <Pressable
       style={[

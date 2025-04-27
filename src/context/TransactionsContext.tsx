@@ -24,30 +24,30 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
         return loadedTransactions;
       })
       .catch(error => {
-        console.error('Erro ao carregar transações:', error);
+        console.error('Error loading transactions:', error);
         setIsLoading(false);
       });
   }, []);
 
-  // Efeito para salvar transações quando mudam
+  // Effect to save transactions when they change
   useEffect(() => {
     if (!isLoading) {
       saveTransactions(transactions)
-        .catch(error => console.error('Erro ao salvar transações:', error));
+        .catch(error => console.error('Error saving transactions:', error));
     }
   }, [transactions, isLoading]);
 
-  // Operações puras para transformação de dados
+  // Pure operations for data transformation
   const addTransaction = (tx: Transaction) => {
-    setTransactions(prev => [...prev, tx]); // Maneira imutável de adicionar
+    setTransactions(prev => [...prev, tx]); // Immutable way to add
   };
 
   const deleteTransaction = (id: string) => {
-    setTransactions(prev => prev.filter(tx => tx.id !== id)); // Filtro imutável
+    setTransactions(prev => prev.filter(tx => tx.id !== id)); // Immutable filter
   };
 
   const replaceAllTransactions = (txs: Transaction[]) => {
-    setTransactions(txs); // Já é imutável
+    setTransactions(txs); // Already immutable
   };
 
   return (
@@ -65,7 +65,7 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
 export const useTransactions = () => {
   const context = useContext(TransactionsContext);
   if (!context) {
-    throw new Error('useTransactions deve ser usado dentro de TransactionsProvider');
+    throw new Error('useTransactions must be used within a TransactionsProvider');
   }
   return context;
 };
