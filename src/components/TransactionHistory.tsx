@@ -18,7 +18,7 @@ const TransactionHistory = ({
   onDeleteTransaction
 }: TransactionHistoryProps) => {
   const { preferences, translate } = usePreferences();
-  const swipeableRefs = useRef<Map<string, Swipeable>>(new Map());
+  const swipeableRefs = useRef<Map<string, any>>(new Map());
 
   // Sort transactions from newest to oldest
   const sortedTransactions = [...transactions].sort(
