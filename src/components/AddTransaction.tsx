@@ -1,75 +1,115 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Pressable, Alert } from 'react-native';
-import { Transaction } from '../types/Transaction';
+import { Transaction, TransactionType } from '../types/Transaction';
 import { styles } from '../styles/AddTransaction.styles';
 import { theme } from '../styles/theme';
 import { usePreferences } from '../context/PreferencesContext';
 import { AddTransactionProps } from '../types/ComponentsTypes';
+import { pipe, when } from '../utils/functional';
 
 const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
   const { translate, preferences } = usePreferences();
   const [amount, setAmount] = useState('');
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
-  const [type, setType] = useState<'income' | 'expense'>('income');
+  const [type, setType] = useState<TransactionType>('income');
 
-  // Função para normalizar o valor de entrada, considerando diferentes formatos de número
+  // Funções puras para lidar com a entrada de usuário
   const normalizeAmount = (value: string): number => {
-    // Remove todos os caracteres que não são dígitos, pontos ou vírgulas
-    const cleanValue = value.replace(/[^\d.,]/g, '');
+    // Solução 1: usando pipe com tipos explícitos
+    return pipe<string, string, string, number>(
+      value,
+      (s: string) => s.replace(/[^\d.,]/g, ''),
+      (s: string) => s.replace(',', '.'),
+      parseFloat
+    );
+  };
 
-    // Substitui vírgula por ponto para conversão correta
-    const normalizedValue = cleanValue.replace(',', '.');
+  const sanitizeAmount = (value: string): string => {
+    const sanitized = value.replace(/[^\d.,]/g, '');
+    const decimalCount = (sanitized.match(/[.,]/g) || []).length;
+    return decimalCount > 1 ? amount : sanitized;
+  };
 
-    return parseFloat(normalizedValue);
+  const createTransaction = (
+    title: string,
+    amount: number,
+    type: TransactionType,
+    category: string
+  ): Transaction => ({
+    id: Date.now().toString(),
+    title,
+    amount,
+    type,
+    category: category || 'Other',
+    date: new Date().toISOString(),
+  });
+
+  // Funções de validação
+  const validateTitle = (title: string): boolean => Boolean(title.trim());
+  const validateAmount = (amount: string): boolean => {
+    const value = normalizeAmount(amount);
+    return !isNaN(value) && value > 0;
   };
 
   const handleAmountChange = (value: string) => {
-    // Aceita apenas dígitos, vírgula e ponto
-    const sanitized = value.replace(/[^\d.,]/g, '');
-
-    // Garantir que só temos um separador decimal
-    const decimalCount = (sanitized.match(/[.,]/g) || []).length;
-    if (decimalCount > 1) return;
-
-    setAmount(sanitized);
+    setAmount(sanitizeAmount(value));
   };
 
   const handleSave = () => {
-    if (!title) {
+    // Validações
+    if (!validateTitle(title)) {
       Alert.alert(translate('error.title'), translate('error.titleRequired'));
       return;
     }
 
-    if (!amount) {
-      Alert.alert(translate('error.amount'), translate('error.amountRequired'));
+    if (!validateAmount(amount)) {
+      Alert.alert(
+        translate('error.amount'),
+        amount ? translate('error.validAmount') : translate('error.amountRequired')
+      );
       return;
     }
 
-    const amountValue = normalizeAmount(amount);
-
-    if (isNaN(amountValue) || amountValue <= 0) {
-      Alert.alert(translate('error.amount'), translate('error.validAmount'));
-      return;
-    }
-
-    const newTransaction: Transaction = {
-      id: Date.now().toString(),
+    // Criar a transação primeiro
+    const transaction = createTransaction(
       title,
-      amount: amountValue,
+      normalizeAmount(amount),
       type,
-      category: category || 'Other',
-      date: new Date().toISOString(),
-    };
+      category
+    );
 
-    onAddTransaction(newTransaction);
+    // Adicionar à lista
+    onAddTransaction(transaction);
 
-    // Limpar os campos após salvar
-    setAmount('');
+    // Limpar campos
     setTitle('');
+    setAmount('');
     setCategory('');
-    setType('income'); // Resetar para o valor padrão
+    setType('income');
   };
+
+  // Render helper para o botão de tipo
+  const renderTypeButton = (buttonType: TransactionType, label: string) => (
+    <Pressable
+      style={[
+        styles.button,
+        { backgroundColor: type === buttonType ?
+            (buttonType === 'income' ? theme.colors.success : theme.colors.danger) :
+            theme.colors.background
+        }
+      ]}
+      onPress={() => setType(buttonType)}
+    >
+      <Text style={{
+        color: type === buttonType ? 'white' : theme.colors.text,
+        textAlign: 'center',
+        fontWeight: theme.fontWeight.medium
+      }}>
+        {translate(`transaction.${buttonType}`)}
+      </Text>
+    </Pressable>
+  );
 
   return (
     <View style={styles.container}>
@@ -101,39 +141,9 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
       />
 
       <View style={styles.typeSelector}>
-        <Pressable
-          style={[
-            styles.button,
-            { backgroundColor: type === 'income' ? theme.colors.success : theme.colors.background }
-          ]}
-          onPress={() => setType('income')}
-        >
-          <Text style={{
-            color: type === 'income' ? 'white' : theme.colors.text,
-            textAlign: 'center',
-            fontWeight: theme.fontWeight.medium
-          }}>
-            {translate('transaction.income')}
-          </Text>
-        </Pressable>
-
+        {renderTypeButton('income', 'transaction.income')}
         <View style={styles.buttonSpace} />
-
-        <Pressable
-          style={[
-            styles.button,
-            { backgroundColor: type === 'expense' ? theme.colors.danger : theme.colors.background }
-          ]}
-          onPress={() => setType('expense')}
-        >
-          <Text style={{
-            color: type === 'expense' ? 'white' : theme.colors.text,
-            textAlign: 'center',
-            fontWeight: theme.fontWeight.medium
-          }}>
-            {translate('transaction.expense')}
-          </Text>
-        </Pressable>
+        {renderTypeButton('expense', 'transaction.expense')}
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
