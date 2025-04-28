@@ -1,10 +1,10 @@
 import * as DocumentPicker from 'expo-document-picker';
-import { Transaction } from '../types/Transaction';
 import { Alert } from 'react-native';
 import { translations } from '../localization/translations';
 import { LanguageCode } from '../context/PreferencesContext';
-import { Result } from '../types/Result';
 import { pipe, tap } from '../utils/functional';
+import { Result, success, failure, ErrorCode } from '../types/Result';
+import { Transaction } from '../types/Transaction'
 
 type ImportMode = 'replace' | 'merge' | 'cancel';
 type ImportResult = { transactions: Transaction[] | null; mode: ImportMode };
@@ -12,11 +12,29 @@ type ImportResult = { transactions: Transaction[] | null; mode: ImportMode };
 // Pure function to validate imported transactions
 const validateTransactions = (data: any): Result<Transaction[]> => {
   if (!Array.isArray(data)) {
-    return { success: false, data: { code: 400, msg: 'Not an array' } };
+    return failure({
+      code: ErrorCode.VALIDATION,
+      msg: 'Os dados importados não estão no formato correto',
+      source: 'validateTransactions'
+    });
   }
 
-  // Deeper validation can be implemented here
-  return { success: true, data: data as Transaction[] };
+  // Validar cada transação no array
+  const invalidTransactions = data.filter(item => {
+    return !item.id || !item.title || typeof item.amount !== 'number' ||
+           !['income', 'expense'].includes(item.type);
+  });
+
+  if (invalidTransactions.length > 0) {
+    return failure({
+      code: ErrorCode.VALIDATION,
+      msg: `${invalidTransactions.length} transações inválidas encontradas`,
+      source: 'validateTransactions',
+      data: { invalidItems: invalidTransactions.length }
+    });
+  }
+
+  return success(data as Transaction[]);
 };
 
 // Pure function to get translation text
