@@ -64,5 +64,34 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontWeight: theme.fontWeight.medium,
     fontSize: theme.fontSize.body,
+  },
+  categoryInputContainer: {
+    position: 'relative',
+    zIndex: 1,
+  },
+  suggestionsContainer: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    backgroundColor: 'white',
+    borderRadius: theme.radius.sm,
+    borderWidth: 1,
+    borderColor: theme.colors.borderLight,
+    maxHeight: 150,
+    zIndex: 5,
+    marginTop: -theme.spacing.md,
+  },
+  suggestionsList: {
+    width: '100%',
+  },
+  suggestionItem: {
+    padding: theme.spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.lightGrey,
+  },
+  suggestionText: {
+    fontSize: theme.fontSize.body,
+    color: theme.colors.text,
   }
 });

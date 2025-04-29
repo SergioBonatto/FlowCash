@@ -14,12 +14,12 @@ const validateTransactions = (data: any): Result<Transaction[]> => {
   if (!Array.isArray(data)) {
     return failure({
       code: ErrorCode.VALIDATION,
-      msg: 'Os dados importados não estão no formato correto',
+      msg: 'The imported data is not in the correct format',
       source: 'validateTransactions'
     });
   }
 
-  // Validar cada transação no array
+  // Validate each transaction in the array
   const invalidTransactions = data.filter(item => {
     return !item.id || !item.title || typeof item.amount !== 'number' ||
            !['income', 'expense'].includes(item.type);
@@ -28,7 +28,7 @@ const validateTransactions = (data: any): Result<Transaction[]> => {
   if (invalidTransactions.length > 0) {
     return failure({
       code: ErrorCode.VALIDATION,
-      msg: `${invalidTransactions.length} transações inválidas encontradas`,
+      msg: `${invalidTransactions.length} invalid transactions found`,
       source: 'validateTransactions',
       data: { invalidItems: invalidTransactions.length }
     });
@@ -98,7 +98,7 @@ export const importTransactions = async (
   } catch (error) {
     const errorResponse = failure({
       code: ErrorCode.BAD_FORMAT,
-      msg: 'Não foi possível importar os dados',
+      msg: 'Unable to import data',
       source: 'importComponent',
       data: { originalError: (error instanceof Error ? error.message : 'Unknown error') },
       timestamp: Date.now()

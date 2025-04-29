@@ -13,7 +13,7 @@ const ReportScreen = () => {
   const { preferences, translate } = usePreferences();
   const screenWidth = Dimensions.get('window').width;
 
-  // Calcular saldo total
+  // Calculate total balance
   const totalBalance = useMemo(() => {
     return transactions.reduce((acc, transaction) => {
       return transaction.type === 'income'
@@ -22,7 +22,7 @@ const ReportScreen = () => {
     }, 0);
   }, [transactions]);
 
-  // Agrupar transações por categoria
+  // Group transactions by category
   const categoryData = useMemo(() => {
     const categories: Record<string, { total: number, color: string }> = {};
     const colors = [
@@ -32,11 +32,11 @@ const ReportScreen = () => {
 
     let colorIndex = 0;
 
-    // Processar apenas despesas para o gráfico de categorias
+    // Process only expenses for the category chart
     transactions
       .filter(t => t.type === 'expense')
       .forEach(transaction => {
-        const category = transaction.category || 'Outros';
+        const category = transaction.category || 'Other';
 
         if (!categories[category]) {
           categories[category] = {
@@ -49,7 +49,7 @@ const ReportScreen = () => {
         categories[category].total += transaction.amount;
       });
 
-    // Converter para o formato do gráfico
+    // Convert to chart format
     return Object.entries(categories).map(([name, data]) => ({
       name,
       amount: data.total,
@@ -59,7 +59,7 @@ const ReportScreen = () => {
     }));
   }, [transactions]);
 
-  // Calcular totais de receitas e despesas
+  // Calculate income and expense totals
   const { totalIncome, totalExpenses } = useMemo(() => {
     return transactions.reduce((acc, transaction) => {
       if (transaction.type === 'income') {
@@ -76,7 +76,7 @@ const ReportScreen = () => {
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{translate('report.title')}</Text>
 
-        {/* Exibir saldo total */}
+        {/* Display total balance */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.balanceCard}>
           <Text style={styles.sectionTitle}>{translate('report.balance')}</Text>
           <Text style={[
@@ -103,7 +103,7 @@ const ReportScreen = () => {
           </View>
         </BlurView>
 
-        {/* Gráfico de categorias */}
+        {/* Category chart */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.chartCard}>
           <Text style={styles.sectionTitle}>{translate('report.categories')}</Text>
 

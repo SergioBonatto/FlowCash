@@ -8,19 +8,31 @@ type TransactionsContextType = {
   addTransaction: (tx: Transaction) => void;
   deleteTransaction: (id: string) => void;
   replaceAllTransactions: (txs: Transaction[]) => void;
+  categories: Set<string>; // Added: set of unique categories
 };
 
 const TransactionsContext = createContext<TransactionsContextType | undefined>(undefined);
 
 export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [categories, setCategories] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
+
+  // Extract unique categories from transactions
+  const extractCategories = (txs: Transaction[]): Set<string> => {
+    return new Set(
+      txs
+        .map(tx => tx.category)
+        .filter(category => category && category !== 'Other')
+    );
+  };
 
   useEffect(() => {
     loadTransactions()
       .then((loadedTransactions) => {
         setIsLoading(false);
         setTransactions(loadedTransactions);
+        setCategories(extractCategories(loadedTransactions));
         return loadedTransactions;
       })
       .catch(error => {
@@ -39,15 +51,26 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
 
   // Pure operations for data transformation
   const addTransaction = (tx: Transaction) => {
-    setTransactions(prev => [...prev, tx]); // Immutable way to add
+    setTransactions(prev => [...prev, tx]);
+
+    // If the category is not empty and not 'Other', add it to the set of categories
+    if (tx.category && tx.category !== 'Other') {
+      setCategories(prev => new Set([...prev, tx.category]));
+    }
   };
 
   const deleteTransaction = (id: string) => {
-    setTransactions(prev => prev.filter(tx => tx.id !== id)); // Immutable filter
+    setTransactions(prev => prev.filter(tx => tx.id !== id));
+
+    // Recalculate categories after deleting a transaction
+    setCategories(extractCategories(
+      transactions.filter(tx => tx.id !== id)
+    ));
   };
 
   const replaceAllTransactions = (txs: Transaction[]) => {
-    setTransactions(txs); // Already immutable
+    setTransactions(txs);
+    setCategories(extractCategories(txs));
   };
 
   return (
@@ -55,7 +78,8 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
       transactions,
       addTransaction,
       deleteTransaction,
-      replaceAllTransactions
+      replaceAllTransactions,
+      categories
     }}>
       {children}
     </TransactionsContext.Provider>

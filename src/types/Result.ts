@@ -1,4 +1,4 @@
-// Tipos de erro específicos para melhor categorização
+// Specific error types for better categorization
 export enum ErrorCode {
   VALIDATION = 400,
   NOT_FOUND = 404,
@@ -11,21 +11,21 @@ export enum ErrorCode {
   PARSE_ERROR = 422
 }
 
-// Define a estrutura de error response mais detalhada
+// Defines a more detailed error response structure
 export type ErrorResponse = {
   code: ErrorCode | number;
   msg: string;
-  source?: string; // componente ou serviço que gerou o erro
-  data?: any; // dados adicionais para debug
-  timestamp?: number; // quando o erro ocorreu
+  source?: string; // component or service that generated the error
+  data?: any; // additional data for debugging
+  timestamp?: number; // when the error occurred
 };
 
-// Define discriminated union type para resultado com parâmetro genérico
+// Defines discriminated union type for result with generic parameter
 export type Result<T> =
   | { success: true; data: T }
   | { success: false; error: ErrorResponse };
 
-// Funções auxiliares para criar resultados
+// Helper functions to create results
 export const success = <T>(data: T): Result<T> => ({
   success: true,
   data

@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Pressable, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Text, TouchableOpacity, Pressable, Alert, FlatList, Modal } from 'react-native';
 import { Transaction, TransactionType } from '../types/Transaction';
 import { styles } from '../styles/AddTransaction.styles';
 import { theme } from '../styles/theme';
 import { usePreferences } from '../context/PreferencesContext';
+import { useTransactions } from '../context/TransactionsContext';
 import { AddTransactionProps } from '../types/ComponentsTypes';
 import { pipe, when } from '../utils/functional';
 
 const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
   const { translate, preferences } = usePreferences();
+  const { categories } = useTransactions();
+
   const [amount, setAmount] = useState('');
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [type, setType] = useState<TransactionType>('income');
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [filteredCategories, setFilteredCategories] = useState<string[]>([]);
+
+  // Update filtered categories when user types
+  useEffect(() => {
+    if (category.trim()) {
+      const filtered = Array.from(categories).filter(
+        cat => cat.toLowerCase().includes(category.toLowerCase())
+      );
+      setFilteredCategories(filtered);
+    } else {
+      setFilteredCategories([]);
+    }
+  }, [category, categories]);
 
   // Pure functions to handle user input
   const normalizeAmount = (value: string): number => {
@@ -54,6 +71,20 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
 
   const handleAmountChange = (value: string) => {
     setAmount(sanitizeAmount(value));
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setCategory(value);
+    if (value.trim()) {
+      setShowCategoryModal(true);
+    } else {
+      setShowCategoryModal(false);
+    }
+  };
+
+  const selectCategory = (selectedCategory: string) => {
+    setCategory(selectedCategory);
+    setShowCategoryModal(false);
   };
 
   const handleSave = () => {
@@ -132,13 +163,35 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
         placeholderTextColor={theme.colors.grey}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder={translate('transaction.category')}
-        value={category}
-        onChangeText={setCategory}
-        placeholderTextColor={theme.colors.grey}
-      />
+      <View style={styles.categoryInputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder={translate('transaction.category')}
+          value={category}
+          onChangeText={handleCategoryChange}
+          placeholderTextColor={theme.colors.grey}
+        />
+
+        {/* Category suggestions dropdown */}
+        {showCategoryModal && filteredCategories.length > 0 && (
+          <View style={styles.suggestionsContainer}>
+            <FlatList
+              data={filteredCategories}
+              keyExtractor={(item) => item}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.suggestionItem}
+                  onPress={() => selectCategory(item)}
+                >
+                  <Text style={styles.suggestionText}>{item}</Text>
+                </TouchableOpacity>
+              )}
+              style={styles.suggestionsList}
+              keyboardShouldPersistTaps="handled"
+            />
+          </View>
+        )}
+      </View>
 
       <View style={styles.typeSelector}>
         {renderTypeButton('income', 'transaction.income')}
