@@ -6,10 +6,11 @@ import { TransactionsProvider } from './context/TransactionsContext';
 import { PreferencesProvider } from './context/PreferencesContext';
 import LoadingScreen from './components/LoadingScreen';
 import ErrorScreen from './components/ErrorScreen';
-import { AppState, ConnectionResult } from './types/AppTypes';
+import { AppState } from './types/AppTypes';
+import { ErrorResponse, ErrorCode } from './types/Result';
 
 const App: React.FC = () => {
-  const [state, setState] = useState<AppState>({
+  const [state, setState] = useState<AppState & { error?: ErrorResponse }>({
     isLoading: true,
     hasError: false
   });
@@ -23,7 +24,16 @@ const App: React.FC = () => {
         setState(prevState => ({ ...prevState, isLoading: false }));
       } catch (error) {
         console.error('Error initializing app:', error);
-        setState({ isLoading: false, hasError: true });
+        setState({
+          isLoading: false,
+          hasError: true,
+          error: {
+            code: ErrorCode.NETWORK_ERROR,
+            msg: error instanceof Error ? error.message : 'Erro desconhecido ao inicializar o aplicativo',
+            source: 'App.checkConnection',
+            timestamp: Date.now()
+          }
+        });
       }
     };
 
@@ -36,7 +46,7 @@ const App: React.FC = () => {
         {state.isLoading ? (
           <LoadingScreen />
         ) : state.hasError ? (
-          <ErrorScreen />
+          <ErrorScreen error={state.error} />
         ) : (
           <TransactionsProvider>
             <NavigationContainer>

@@ -96,7 +96,15 @@ export const importTransactions = async (
       );
     });
   } catch (error) {
-    console.error('Error importing transactions:', error);
-    return { transactions: null, mode: 'cancel' };
+    const errorResponse = failure({
+      code: ErrorCode.BAD_FORMAT,
+      msg: 'Não foi possível importar os dados',
+      source: 'importComponent',
+      data: { originalError: (error instanceof Error ? error.message : 'Unknown error') },
+      timestamp: Date.now()
+    });
   }
+
+  // Ensure a default return value in case of unexpected errors
+  return { transactions: null, mode: 'cancel' };
 };
