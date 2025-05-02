@@ -16,6 +16,33 @@ export const styles = StyleSheet.create({
     color: theme.colors.text,
     marginBottom: theme.spacing.lg,
   },
+  timeRangeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: theme.spacing.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: theme.radius.md,
+    padding: 4,
+  },
+  timeRangeButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 8,
+    borderRadius: theme.radius.sm,
+  },
+  timeRangeButtonActive: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    ...theme.shadows.small,
+  },
+  timeRangeText: {
+    fontSize: theme.fontSize.small,
+    color: theme.colors.subText,
+    fontWeight: theme.fontWeight.medium,
+  },
+  timeRangeTextActive: {
+    color: theme.colors.primary,
+    fontWeight: theme.fontWeight.semibold,
+  },
   balanceCard: {
     borderRadius: theme.radius.lg,
     overflow: 'hidden',
@@ -34,6 +61,15 @@ export const styles = StyleSheet.create({
     padding: theme.spacing.md,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     alignItems: 'center',
+  },
+  infoCard: {
+    borderRadius: theme.radius.lg,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: theme.colors.borderLight,
+    marginBottom: theme.spacing.lg,
+    padding: theme.spacing.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   sectionTitle: {
     fontSize: theme.fontSize.subtitle,
@@ -90,4 +126,69 @@ export const styles = StyleSheet.create({
     color: theme.colors.subText,
     textAlign: 'center',
   },
+  chartStyle: {
+    marginVertical: theme.spacing.md,
+    borderRadius: theme.radius.md,
+  },
+  savingsRateContainer: {
+    alignItems: 'center',
+    marginTop: theme.spacing.md,
+    paddingTop: theme.spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.borderLight,
+  },
+  savingsRateLabel: {
+    fontSize: theme.fontSize.caption,
+    color: theme.colors.subText,
+    marginBottom: theme.spacing.xs,
+  },
+  savingsRateValue: {
+    fontSize: 24,
+    fontWeight: theme.fontWeight.bold,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  infoItem: {
+    flex: 1,
+    padding: theme.spacing.sm,
+    marginHorizontal: 2,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: theme.radius.sm,
+  },
+  infoLabel: {
+    fontSize: theme.fontSize.caption,
+    color: theme.colors.subText,
+    marginBottom: theme.spacing.xs,
+  },
+  infoSubtext: {
+    fontSize: theme.fontSize.small,
+    color: theme.colors.subText,
+    marginTop: theme.spacing.xs,
+  },
+  statsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  statItem: {
+    width: '48%',
+    padding: theme.spacing.sm,
+    marginBottom: theme.spacing.sm,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: theme.radius.sm,
+    alignItems: 'center',
+  },
+  statValue: {
+    fontSize: theme.fontSize.body,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text,
+    marginBottom: 2,
+  },
+  statLabel: {
+    fontSize: theme.fontSize.small,
+    color: theme.colors.subText,
+    textAlign: 'center',
+  }
 });
