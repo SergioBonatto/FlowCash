@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { PieChart, LineChart, BarChart } from 'react-native-chart-kit';
 import { useTransactions } from '../context/TransactionsContext';
@@ -11,6 +11,8 @@ import { Transaction } from '../types/Transaction';
 import { Ionicons } from '@expo/vector-icons';
 import { format, subMonths, startOfMonth, endOfMonth, isWithinInterval, parseISO } from 'date-fns';
 import { ptBR, enUS } from 'date-fns/locale';
+import ScreenBackground from '../components/ScreenBackground';
+
 
 // Opções para o período do relatório
 type TimeRange = 'week' | 'month' | '3months' | '6months' | 'year' | 'all';
@@ -317,7 +319,7 @@ const ReportScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <ScreenBackground>
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{translate('report.title')}</Text>
 
@@ -534,7 +536,7 @@ const ReportScreen = () => {
           </BlurView>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </ScreenBackground>
   );
 };
 

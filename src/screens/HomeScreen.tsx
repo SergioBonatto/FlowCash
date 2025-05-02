@@ -1,6 +1,6 @@
 import React from 'react';
 import { BlurView } from 'expo-blur';
-import { View, StatusBar, SafeAreaView, ImageBackground } from 'react-native';
+import { View } from 'react-native';
 import { styles } from '../styles/HomeScreen.styles';
 import { theme } from '../styles/theme';
 import { useTransactions } from '../context/TransactionsContext';
@@ -10,6 +10,7 @@ import AddTransaction from '../components/AddTransaction';
 import TransactionHistory from '../components/TransactionHistory';
 import { Transaction } from '../types/Transaction';
 import { usePreferences } from '../context/PreferencesContext';
+import ScreenBackground from '../components/ScreenBackground';
 
 const HomeScreen = () => {
   const { transactions, addTransaction, replaceAllTransactions, deleteTransaction } = useTransactions();
@@ -60,32 +61,26 @@ const HomeScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" translucent backgroundColor="transparent" />
-      <ImageBackground
-        source={require('../../assets/background.png')}
-        style={styles.backgroundImage}
-      >
-        <View style={styles.container}>
-          {transactions.length === 0 ? (
-            <View style={styles.contentContainer}>
-              {EmptyStateHeaderComponent}
-              <BlurView intensity={theme.blur.light} tint="light" style={styles.emptyStateContainer}>
-                <TransactionHistory transactions={[]} />
-              </BlurView>
-              {FooterComponent}
-            </View>
-          ) : (
-            <TransactionHistory
+    <ScreenBackground>
+      <View style={styles.container}>
+        {transactions.length === 0 ? (
+          <View style={styles.contentContainer}>
+            {EmptyStateHeaderComponent}
+            <BlurView intensity={theme.blur.light} tint="light" style={styles.emptyStateContainer}>
+              <TransactionHistory transactions={[]} />
+            </BlurView>
+            {FooterComponent}
+          </View>
+        ) : (
+          <TransactionHistory
             transactions={transactions}
             ListHeaderComponent={TransactionsHeaderComponent}
             ListFooterComponent={FooterComponent}
             onDeleteTransaction={deleteTransaction}
           />
-          )}
-        </View>
-      </ImageBackground>
-    </SafeAreaView>
+        )}
+      </View>
+    </ScreenBackground>
   );
 };
 

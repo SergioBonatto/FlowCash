@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, Modal, FlatList } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { usePreferences, CurrencyCode, LanguageCode } from '../context/PreferencesContext';
 import { theme } from '../styles/theme';
 import { styles } from '../styles/SettingsScreen.styles';
 import { Ionicons } from '@expo/vector-icons';
+import ScreenBackground from '../components/ScreenBackground';
 
 const SettingsScreen = () => {
   const { preferences, setCurrency, setLanguage, translate } = usePreferences();
@@ -73,7 +74,7 @@ const SettingsScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <ScreenBackground>
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{translate('settings')}</Text>
 
@@ -132,7 +133,7 @@ const SettingsScreen = () => {
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </ScreenBackground>
   );
 };
 
