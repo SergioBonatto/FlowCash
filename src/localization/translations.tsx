@@ -122,6 +122,20 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'report.transactionsPerDay': 'Transações por Dia',
     'report.topExpenseCategory': 'Categoria de Despesa Principal',
     'report.topIncomeCategory': 'Categoria de Receita Principal',
+    // Adicione estas traduções ao objeto translations para cada idioma em src/localization/translations.tsx
+
+// Para o português (pt-BR)
+'exchange.title': 'Conversor de Moedas',
+'exchange.amount': 'Valor a Converter',
+'exchange.from': 'De',
+'exchange.to': 'Para',
+'exchange.rate': 'Taxa de Câmbio',
+'exchange.result': 'Resultado da Conversão',
+'exchange.lastUpdated': 'Última atualização',
+'exchange.about': 'Sobre as Taxas',
+'exchange.info': 'As taxas de câmbio são obtidas de fontes confiáveis e atualizadas regularmente. Note que estas são taxas aproximadas e podem variar ligeiramente das taxas utilizadas por bancos e serviços de transferência internacional.',
+'exchange.error.title': 'Erro na Conversão',
+'exchange.error.message': 'Não foi possível obter as taxas de câmbio. Verifique sua conexão com a internet e tente novamente.',
   },
   'pt-PT': {
     'welcome': 'Bem-vindo ao FlowCash',
