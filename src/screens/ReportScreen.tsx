@@ -13,8 +13,7 @@ import { format, subMonths, startOfMonth, endOfMonth, isWithinInterval, parseISO
 import { ptBR, enUS } from 'date-fns/locale';
 import ScreenBackground from '../components/ScreenBackground';
 
-
-// Opções para o período do relatório
+// Report period options
 type TimeRange = 'week' | 'month' | '3months' | '6months' | 'year' | 'all';
 
 const ReportScreen = () => {
@@ -23,10 +22,10 @@ const ReportScreen = () => {
   const screenWidth = Dimensions.get('window').width;
   const [timeRange, setTimeRange] = useState<TimeRange>('month');
 
-  // Determinar a localização para formatação de datas baseada no idioma selecionado
+  // Determine date locale based on selected language
   const dateLocale = preferences.language.startsWith('pt') ? ptBR : enUS;
 
-  // Filtrar transações pelo período selecionado
+  // Filter transactions by selected period
   const filteredTransactions = useMemo(() => {
     const now = new Date();
     let startDate: Date;
@@ -58,7 +57,7 @@ const ReportScreen = () => {
     });
   }, [transactions, timeRange]);
 
-  // Cálculos financeiros básicos
+  // Basic financial calculations
   const financialSummary = useMemo(() => {
     let totalIncome = 0;
     let totalExpenses = 0;
@@ -103,7 +102,7 @@ const ReportScreen = () => {
     };
   }, [filteredTransactions]);
 
-  // Dados por categoria para despesas
+  // Expense category data
   const expenseCategoryData = useMemo(() => {
     const categories: Record<string, { total: number, color: string }> = {};
     const colors = [
@@ -113,11 +112,10 @@ const ReportScreen = () => {
 
     let colorIndex = 0;
 
-    // Processar apenas despesas para o gráfico
     filteredTransactions
       .filter(t => t.type === 'expense')
       .forEach(transaction => {
-        const category = transaction.category || 'Outros';
+        const category = transaction.category || 'Other';
 
         if (!categories[category]) {
           categories[category] = {
@@ -130,9 +128,8 @@ const ReportScreen = () => {
         categories[category].total += transaction.amount;
       });
 
-    // Converter para o formato do gráfico
     return Object.entries(categories)
-      .sort((a, b) => b[1].total - a[1].total) // Ordenar por valor decrescente
+      .sort((a, b) => b[1].total - a[1].total)
       .map(([name, data]) => ({
         name,
         amount: data.total,
@@ -142,7 +139,7 @@ const ReportScreen = () => {
       }));
   }, [filteredTransactions]);
 
-  // Dados por categoria para receitas
+  // Income category data
   const incomeCategoryData = useMemo(() => {
     const categories: Record<string, { total: number, color: string }> = {};
     const colors = [
@@ -152,11 +149,10 @@ const ReportScreen = () => {
 
     let colorIndex = 0;
 
-    // Processar apenas receitas para o gráfico
     filteredTransactions
       .filter(t => t.type === 'income')
       .forEach(transaction => {
-        const category = transaction.category || 'Outros';
+        const category = transaction.category || 'Other';
 
         if (!categories[category]) {
           categories[category] = {
@@ -169,9 +165,8 @@ const ReportScreen = () => {
         categories[category].total += transaction.amount;
       });
 
-    // Converter para o formato do gráfico
     return Object.entries(categories)
-      .sort((a, b) => b[1].total - a[1].total) // Ordenar por valor decrescente
+      .sort((a, b) => b[1].total - a[1].total)
       .map(([name, data]) => ({
         name,
         amount: data.total,
@@ -181,9 +176,8 @@ const ReportScreen = () => {
       }));
   }, [filteredTransactions]);
 
-  // Dados para o gráfico de evolução mensal
+  // Monthly trend data
   const monthlyTrendData = useMemo(() => {
-    // Considerar no máximo os últimos 6 meses para o gráfico de tendência
     const numberOfMonths = 6;
     const labels: string[] = [];
     const incomeData: number[] = [];
@@ -192,16 +186,13 @@ const ReportScreen = () => {
 
     const now = new Date();
 
-    // Criar arrays para cada mês
     for (let i = numberOfMonths - 1; i >= 0; i--) {
       const monthDate = subMonths(now, i);
       const monthStart = startOfMonth(monthDate);
       const monthEnd = endOfMonth(monthDate);
 
-      // Formatar o nome do mês de acordo com o idioma
       labels.push(format(monthDate, 'MMM', { locale: dateLocale }).substring(0, 3));
 
-      // Calcular totais do mês
       let monthlyIncome = 0;
       let monthlyExpense = 0;
 
@@ -225,11 +216,10 @@ const ReportScreen = () => {
     return { labels, incomeData, expenseData, balanceData };
   }, [filteredTransactions, dateLocale]);
 
-  // Dados para estatísticas de transações
+  // Transaction statistics
   const transactionStats = useMemo(() => {
     if (filteredTransactions.length === 0) return null;
 
-    // Classificar transações por data (mais recente primeiro)
     const sortedTransactions = [...filteredTransactions].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
@@ -238,7 +228,6 @@ const ReportScreen = () => {
     const lastDate = parseISO(sortedTransactions[0].date);
     const daysInRange = Math.ceil((lastDate.getTime() - firstDate.getTime()) / (1000 * 3600 * 24)) || 1;
 
-    // Calcular médias
     const averageExpenseAmount = filteredTransactions
       .filter(t => t.type === 'expense')
       .reduce((sum, t) => sum + t.amount, 0) /
@@ -251,12 +240,11 @@ const ReportScreen = () => {
 
     const transactionsPerDay = filteredTransactions.length / daysInRange;
 
-    // Top categorias
     const expenseCategoryCounts: Record<string, number> = {};
     const incomeCategoryCounts: Record<string, number> = {};
 
     filteredTransactions.forEach(t => {
-      const category = t.category || 'Outros';
+      const category = t.category || 'Other';
       if (t.type === 'expense') {
         expenseCategoryCounts[category] = (expenseCategoryCounts[category] || 0) + 1;
       } else {
@@ -282,14 +270,14 @@ const ReportScreen = () => {
     };
   }, [filteredTransactions]);
 
-  // Renderizar os botões para selecionar o período
+  // Render time range selector
   const renderTimeRangeSelector = () => {
     const options: { label: string, value: TimeRange }[] = [
       { label: '7D', value: 'week' },
       { label: '1M', value: 'month' },
       { label: '3M', value: '3months' },
       { label: '6M', value: '6months' },
-      { label: '1A', value: 'year' },
+      { label: '1Y', value: 'year' },
       { label: translate('report.all'), value: 'all' }
     ];
 
@@ -323,10 +311,8 @@ const ReportScreen = () => {
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{translate('report.title')}</Text>
 
-        {/* Seletor de período */}
         {renderTimeRangeSelector()}
 
-        {/* Resumo financeiro */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.balanceCard}>
           <Text style={styles.sectionTitle}>{translate('report.balance')}</Text>
           <Text style={[
@@ -352,7 +338,6 @@ const ReportScreen = () => {
             </View>
           </View>
 
-          {/* Taxa de economia */}
           <View style={styles.savingsRateContainer}>
             <Text style={styles.savingsRateLabel}>{translate('report.savingsRate')}</Text>
             <Text style={[
@@ -364,7 +349,6 @@ const ReportScreen = () => {
           </View>
         </BlurView>
 
-        {/* Gráfico de tendência mensal */}
         {monthlyTrendData.labels.length > 1 && (
           <BlurView intensity={theme.blur.medium} tint="light" style={styles.chartCard}>
             <Text style={styles.sectionTitle}>{translate('report.monthlyTrend')}</Text>
@@ -416,7 +400,6 @@ const ReportScreen = () => {
           </BlurView>
         )}
 
-        {/* Gráfico de categorias de despesas */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.chartCard}>
           <Text style={styles.sectionTitle}>{translate('report.expenseCategories')}</Text>
 
@@ -441,7 +424,6 @@ const ReportScreen = () => {
           )}
         </BlurView>
 
-        {/* Gráfico de categorias de receitas */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.chartCard}>
           <Text style={styles.sectionTitle}>{translate('report.incomeCategories')}</Text>
 
@@ -466,7 +448,6 @@ const ReportScreen = () => {
           )}
         </BlurView>
 
-        {/* Transações notáveis */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.infoCard}>
           <Text style={styles.sectionTitle}>{translate('report.notableTransactions')}</Text>
 
@@ -493,7 +474,6 @@ const ReportScreen = () => {
           </View>
         </BlurView>
 
-        {/* Estatísticas adicionais */}
         {transactionStats && (
           <BlurView intensity={theme.blur.medium} tint="light" style={styles.infoCard}>
             <Text style={styles.sectionTitle}>{translate('report.statistics')}</Text>

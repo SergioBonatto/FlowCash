@@ -8,52 +8,45 @@ import { Ionicons } from '@expo/vector-icons';
 import ScreenBackground from '../components/ScreenBackground';
 import { fetchExchangeRates } from '../services/exchangeRate';
 import CurrencySelector from '../components/CurrencySelector';
+import { I18n } from '../localization/i18n';
 
-// Definir um tipo para todos os códigos de moeda suportados
+
 type SupportedCurrencyCode = CurrencyCode | 'JPY' | 'CNY' | 'CAD' | 'AUD' | 'CHF' | 'MXN';
 
 const AVAILABLE_CURRENCIES = [
-  { code: 'USD', name: 'Dólar Americano' },
+  { code: 'USD', name: 'US Dollar' },
   { code: 'EUR', name: 'Euro' },
-  { code: 'BRL', name: 'Real Brasileiro' },
-  { code: 'GBP', name: 'Libra Esterlina' },
-  { code: 'JPY', name: 'Iene Japonês' },
-  { code: 'CNY', name: 'Yuan Chinês' },
-  { code: 'CAD', name: 'Dólar Canadense' },
-  { code: 'AUD', name: 'Dólar Australiano' },
-  { code: 'CHF', name: 'Franco Suíço' },
-  { code: 'MXN', name: 'Peso Mexicano' },
+  { code: 'BRL', name: 'Brazilian Real' },
+  { code: 'GBP', name: 'British Pound' },
+  { code: 'JPY', name: 'Japanese Yen' },
+  { code: 'CNY', name: 'Chinese Yuan' },
+  { code: 'CAD', name: 'Canadian Dollar' },
+  { code: 'AUD', name: 'Australian Dollar' },
+  { code: 'CHF', name: 'Swiss Franc' },
+  { code: 'MXN', name: 'Mexican Peso' },
 ];
 
 const ExchangeRateScreen = () => {
-  const { preferences, translate } = usePreferences();
-  const [fromCurrency, setFromCurrency] = useState<SupportedCurrencyCode>(preferences.currency);
-  const [toCurrency, setToCurrency] = useState<SupportedCurrencyCode>(
-    fromCurrency === 'USD' ? 'BRL' : 'USD'
-  );
+  const { preferences, i18n } = usePreferences();
+  const [toCurrency, setToCurrency] = useState<SupportedCurrencyCode>(preferences.currency);
+  const [fromCurrency, setFromCurrency] = useState<SupportedCurrencyCode>(toCurrency === 'BRL' ? 'USD' : 'BRL');
   const [amount, setAmount] = useState('1');
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  // Trocar as moedas de posição
   const swapCurrencies = () => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
   };
 
-  // Função para validar e formatar entrada numérica
   const handleAmountChange = (text: string) => {
-    // Permitir apenas números e um ponto decimal
     const sanitized = text.replace(/[^0-9.]/g, '');
-    // Verificar que não existam múltiplos pontos decimais
     const decimalCount = (sanitized.match(/\./g) || []).length;
     if (decimalCount > 1) return;
-
     setAmount(sanitized);
   };
 
-  // Buscar taxas de câmbio
   const getExchangeRate = async () => {
     if (fromCurrency === toCurrency) {
       setExchangeRate(1);
@@ -63,28 +56,27 @@ const ExchangeRateScreen = () => {
 
     setLoading(true);
 
-    try {
-      const rate = await fetchExchangeRates(fromCurrency, toCurrency);
-      setExchangeRate(rate);
+    const result = await fetchExchangeRates(fromCurrency, toCurrency, i18n);
+
+
+    if (result.success) {
+      setExchangeRate(result.data);
       setLastUpdated(new Date());
-    } catch (error) {
-      console.error('Erro ao buscar taxas de câmbio:', error);
+    } else {
       Alert.alert(
-        translate('exchange.error.title'),
-        translate('exchange.error.message')
+        i18n.t('exchange.error.title'),
+        result.error.msg
       );
       setExchangeRate(null);
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
-  // Buscar taxa de câmbio quando as moedas mudarem
   useEffect(() => {
     getExchangeRate();
   }, [fromCurrency, toCurrency]);
 
-  // Calcular o valor convertido
   const convertedAmount = exchangeRate !== null && amount
     ? (parseFloat(amount || '0') * exchangeRate).toFixed(2)
     : '0.00';
@@ -92,12 +84,11 @@ const ExchangeRateScreen = () => {
   return (
     <ScreenBackground>
       <ScrollView style={styles.container}>
-        <Text style={styles.title}>{translate('exchange.title')}</Text>
+      <Text style={styles.title}>{i18n.t('exchange.title')}</Text>
 
-        {/* Campo para digitar o valor */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.card}>
-          <Text style={styles.sectionTitle}>{translate('exchange.amount')}</Text>
-          <TextInput
+        <Text style={styles.sectionTitle}>{i18n.t('exchange.amount')}</Text>
+        <TextInput
             style={styles.amountInput}
             value={amount}
             onChangeText={handleAmountChange}
@@ -107,9 +98,8 @@ const ExchangeRateScreen = () => {
           />
         </BlurView>
 
-        {/* Seletor de moedas */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.card}>
-          <Text style={styles.sectionTitle}>{translate('exchange.from')}</Text>
+        <Text style={styles.sectionTitle}>{i18n.t('exchange.from')}</Text>
 
           <CurrencySelector
             currencies={AVAILABLE_CURRENCIES}
@@ -117,7 +107,6 @@ const ExchangeRateScreen = () => {
             onSelect={(currency: string) => setFromCurrency(currency as SupportedCurrencyCode)}
           />
 
-          {/* Botão de inverter moedas */}
           <TouchableOpacity
             style={styles.swapButton}
             onPress={swapCurrencies}
@@ -125,7 +114,7 @@ const ExchangeRateScreen = () => {
             <Ionicons name="swap-vertical" size={24} color={theme.colors.primary} />
           </TouchableOpacity>
 
-          <Text style={styles.sectionTitle}>{translate('exchange.to')}</Text>
+          <Text style={styles.sectionTitle}>{i18n.t('exchange.to')}</Text>
 
           <CurrencySelector
             currencies={AVAILABLE_CURRENCIES}
@@ -134,9 +123,8 @@ const ExchangeRateScreen = () => {
           />
         </BlurView>
 
-        {/* Resultados da conversão */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.card}>
-          <Text style={styles.sectionTitle}>{translate('exchange.result')}</Text>
+        <Text style={styles.sectionTitle}>{i18n.t('exchange.result')}</Text>
 
           {loading ? (
             <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -156,19 +144,19 @@ const ExchangeRateScreen = () => {
 
               {lastUpdated && (
                 <Text style={styles.updatedText}>
-                  {translate('exchange.lastUpdated')}: {lastUpdated.toLocaleTimeString()}
+                  {i18n.t('exchange.lastUpdated')}:
+                  {lastUpdated.toLocaleTimeString()}
                 </Text>
               )}
             </>
           )}
         </BlurView>
 
-        {/* Informações sobre taxas */}
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.card}>
-          <Text style={styles.sectionTitle}>{translate('exchange.about')}</Text>
-          <Text style={styles.infoText}>
-            {translate('exchange.info')}
-          </Text>
+          <Text style={styles.sectionTitle}>{i18n.t('exchange.about')}</Text>
+        <Text style={styles.infoText}>
+          {i18n.t('exchange.info')}
+        </Text>
         </BlurView>
       </ScrollView>
     </ScreenBackground>

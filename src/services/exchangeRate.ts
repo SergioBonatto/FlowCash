@@ -1,6 +1,7 @@
 import { Result, success, failure, ErrorCode } from '../types/Result';
+import { I18n } from '../localization/i18n';
 
-// API gratuita para taxas de câmbio (usaremos a API pública do ExchangeRate-API)
+// Free API for exchange rates (using ExchangeRate-API public API)
 const API_URL = 'https://open.er-api.com/v6/latest';
 
 export type ExchangeRateResponse = {
@@ -11,32 +12,43 @@ export type ExchangeRateResponse = {
 
 export const fetchExchangeRates = async (
   fromCurrency: string,
-  toCurrency: string
-): Promise<number> => {
+  toCurrency: string,
+  i18n: I18n
+): Promise<Result<number>> => {
   try {
-    // Buscar as taxas a partir da moeda base
     const response = await fetch(`${API_URL}/${fromCurrency}`);
 
     if (!response.ok) {
-      throw new Error(`Erro na API: ${response.status}`);
+      return failure({
+        code: ErrorCode.SERVER_ERROR,
+        msg: i18n.t('exchange.error.message'),
+        source: 'exchangeRate'
+      });
     }
 
     const data = await response.json() as ExchangeRateResponse;
 
-    // Verificar se a moeda de destino existe nas taxas
     if (!data.rates[toCurrency]) {
-      throw new Error(`Taxa não encontrada para ${toCurrency}`);
+      return failure({
+        code: ErrorCode.NOT_FOUND,
+        msg: i18n.t('exchange.error.message'),
+        source: 'exchangeRate'
+      });
     }
 
-    // Retornar a taxa de câmbio
-    return data.rates[toCurrency];
+    return success(data.rates[toCurrency]);
   } catch (error) {
-    console.error('Erro ao buscar taxas de câmbio:', error);
-    throw error;
+    console.error('Error fetching exchange rates:', error);
+    return failure({
+      code: ErrorCode.NETWORK_ERROR,
+      msg: i18n.t('exchange.error.message'),
+      source: 'exchangeRate',
+      timestamp: Date.now()
+    });
   }
 };
 
-// Função para converter valores
+// Function to convert amounts
 export const convertCurrency = (
   amount: number,
   rate: number
