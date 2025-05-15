@@ -184,9 +184,9 @@
 - Yarn or npm
 - Expo CLI:
 
-  ```bash
+```bash
     npm install -g expo-cli
-  ```
+```
 
 ### Setup
 
