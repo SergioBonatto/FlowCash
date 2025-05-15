@@ -14,7 +14,7 @@ import ScreenBackground from '../components/ScreenBackground';
 
 const HomeScreen = () => {
   const { transactions, addTransaction, replaceAllTransactions, deleteTransaction } = useTransactions();
-  const { translate } = usePreferences();
+  const { i18n } = usePreferences();
 
 
   const handleImportedTransactions = (importedTransactions: Transaction[]) => {
