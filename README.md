@@ -64,10 +64,13 @@
 ## 📱 Screenshots
 
 <div align="center">
-  <img src="./assets/Screenshot%202025-04-24%20at%2017.00.28.png" alt="Transaction Dashboard" width="300" />
-  <img src="./assets/Screenshot%202025-04-24%20at%2017.00.39.png" alt="Transaction Management" width="300" />
+  <img src="./assets/flowcash1.png" alt="Transaction Dashboard" width="300" />
+  <img src="./assets/flowcash2.png" alt="Exchange Screen" width="300" />
 </div>
-
+<div align="center">
+  <img src="./assets/flowcash3.png" alt="Reports screen" width="300" />
+  <img src="./assets/flowcash4.png" alt="Settings Screen" width="300" />
+</div>
 ---
 
 ## 🗺️ Roadmap
