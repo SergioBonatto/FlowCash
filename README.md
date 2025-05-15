@@ -1,41 +1,63 @@
-# FlowCash (WIP)
+# FlowCash (Work in Progress)
 
 <div align="center">
   <img src="assets/icon.png" alt="FlowCash Logo" width="200" />
+
+  [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
+  [![Version](https://img.shields.io/badge/version-1.0.0-blue)]()
+  [![License](https://img.shields.io/badge/license-MIT-green)]()
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)]()
 </div>
 
-**FlowCash** is a sophisticated mobile application designed to help users manage personal finances with elegance and efficiency. Built with **React Native** and **Expo**, FlowCash delivers a premium user experience through its modern **glassmorphism-inspired UI** and robust financial management capabilities.
+**FlowCash** is a modern and elegant personal finance management app built with **React Native** and **Expo**. Designed with a premium glassmorphism-inspired UI and fully offline architecture, it empowers users to track, analyze, and manage their daily finances securely and intuitively — all without depending on cloud services.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-- 💸 **Comprehensive Transaction Management**: Track income and expenses with detailed categorization
-- 🌍 **Advanced Internationalization**: Support for 10 languages with dynamic locale-based formatting
-- 💱 **Multi-currency Support**: Handle transactions in USD, BRL, EUR, and GBP with proper formatting
-- 📊 **Transaction Analytics**: Visual breakdown of spending patterns and income sources
-- 📜 **Rich Transaction History**: Chronologically sorted with customizable filtering options
-- 📤 **Data Portability**: Export transactions as standardized JSON for backup or analysis
-- 📥 **Seamless Import**: Import transaction data with conflict resolution handling
-- ⚙️ **Personalization**: Customizable preferences for language, currency, and display options
-- 💾 **Persistent Storage**: Reliable local data persistence with AsyncStorage
-- 🎨 **Premium UI/UX**: Beautiful glassmorphism effects with optimized performance
-- 🔒 **Data Privacy**: All financial data stays on your device, no cloud storage required
+- 💸 **Transaction Management**
+  Create, edit, and delete income and expense entries with full categorization and notes support.
+
+- 🌍 **Internationalization (i18n)**
+  Available in 10+ languages with real-time dynamic locale switching and full RTL support.
+
+- 💱 **Multi-Currency with Live Conversion**
+  Supports USD, BRL, EUR, GBP — with exchange-rate based conversions to improve precision.
+
+- 📊 **Analytics Dashboard**
+  View spending patterns, top categories, and income vs. expense charts.
+
+- 📜 **Advanced Transaction History**
+  Filterable, sortable, and chronologically organized records.
+
+- 📤 **Data Export / Import**
+  Backup and restore data via standardized JSON format, with validation and conflict resolution.
+
+- ⚙️ **Personalization Options**
+  Choose preferred language, currency, layout display, and more.
+
+- 💾 **Local-Only Persistent Storage**
+  All financial data is securely stored on-device using AsyncStorage — no internet required.
+
+- 🎨 **Premium Glassmorphism UI**
+  Aesthetic and responsive design optimized for both performance and visual appeal.
+
+- 🔐 **Privacy-First Architecture**
+  No cloud sync by default — users retain full control over their financial data.
 
 ---
 
 ## 🚀 Tech Stack
 
-- **React Native**: Cross-platform mobile framework with native performance
-- **Expo**: Developer toolkit and platform for universal React applications
-- **TypeScript**: Enterprise-grade static type checking
-- **React Context API**: Efficient state management with provider pattern
-- **AsyncStorage**: Persistent, key-value storage system
-- **Expo Blur**: High-performance blur effects for glassmorphic UI
-- **React Navigation**: Navigation library with native transitions
-- **date-fns**: Modern JavaScript date utility library
-- **Expo Document Picker & File System**: For handling file operations
-- **React Hooks**: Functional component patterns for stateful logic
+- **React Native** & **Expo** – Universal mobile app development
+- **TypeScript** – Strict type safety across the codebase
+- **React Context API** – Modular and efficient state management
+- **AsyncStorage** – Offline local data storage
+- **React Navigation** – Seamless navigation system with native transitions
+- **Expo BlurView** – Smooth glassmorphic UI effects
+- **date-fns** – Lightweight date utilities
+- **Expo File System & Document Picker** – File I/O support
+- **React Hooks** – Declarative logic in functional components
 
 ---
 
@@ -48,249 +70,186 @@
 
 ---
 
-## ⚙️ Installation
+## 🗺️ Roadmap
 
-### Prerequisites
-- Node.js (v14.0.0+)
-- npm (v7.0.0+) or Yarn (v1.22.0+)
-- Expo CLI (`npm install -g expo-cli`)
-- iOS Simulator or Android Emulator for local development
+### ✅ Released Features (v1.0.0)
 
-### Setup
-```bash
-# Clone the repository
-git clone https://github.com/sergiobonatto/flowcash.git
+#### Core
+- [x] CRUD for income and expense transactions
+- [x] Multi-currency with real-time exchange rates
+- [x] Category management (default + custom)
+- [x] Data export/import
+- [x] Persistent local storage
 
-# Navigate to project directory
-cd flowcash
+#### UX & UI
+- [x] Glassmorphism design
+- [x] Gesture support
+- [x] Performance optimizations
+- [x] Responsive layout
 
-# Install dependencies with Yarn (preferred for deterministic builds)
-yarn install
-# OR with npm
-npm install
+#### i18n & Localization
+- [x] Language switching (10+ languages)
+- [x] Locale-aware currency and date formatting
+- [x] RTL support
 
-# Start the development server
-yarn start
-# OR
-npm start
-```
+### 🚧 Upcoming Features (v1.1.0 – Q3 2025)
 
-### Running on Physical Devices
-1. Install the Expo Go app on your device
-2. Scan the QR code from terminal with your camera app (iOS) or Expo Go app (Android)
-3. Allow the app to open in Expo Go
+- [ ] Budget planning system
+- [ ] Enhanced analytics dashboard
+- [ ] In-app transaction search
+- [ ] Transaction templates
+- [ ] Quick actions (e.g., swipe to add recurring expense)
+- [ ] Dark mode support
+- [x] Custom transaction categories
 
----
+### 🔮 Future Plans (v2.0.0)
 
-## 🏗️ Project Architecture
+#### Innovation
+- [ ] Investment tracking (manual + real-time for stocks/crypto)
+- [ ] Receipt scanning via OCR
+- [ ] Biometric authentication
 
-FlowCash follows a feature-based architecture with clean separation of concerns:
-
-```
-.
-├── assets/                 # Static assets - icons, images, fonts
-├── src/
-│   ├── components/         # Reusable UI components
-│   │   ├── shared/         # Generic, widely used components
-│   │   └── domain/         # Feature-specific components
-│   ├── context/            # React Context providers
-│   │   ├── PreferencesContext.tsx  # User preferences state
-│   │   └── TransactionsContext.tsx # Financial data state
-│   ├── localization/       # i18n setup and translation files
-│   ├── navigation/         # Navigation configuration
-│   ├── screens/            # Application screens/pages
-│   ├── services/           # Business logic and external services
-│   │   ├── storage.ts      # Local storage operations
-│   │   ├── export.ts       # Data export functionality
-│   │   └── import.ts       # Data import with validation
-│   ├── styles/             # Styling system
-│   │   ├── theme.ts        # Design tokens and variables
-│   │   └── components/     # Component-specific styles
-│   ├── types/              # TypeScript type definitions
-│   └── utils/              # Utility functions and helpers
-│       └── formatCurrency.ts # Currency formatting
-├── App.tsx                 # Application entry point
-├── babel.config.js         # Babel transpilation config
-└── package.json            # Dependencies and scripts
-```
+#### Enhancements
+- [ ] Recurring transactions
+- [ ] Multiple accounts and transfers
+- [ ] Budget forecasting
+- [ ] Cloud sync (optional)
+- [ ] Home screen widgets (iOS + Android)
 
 ---
 
-## 🧩 Core Component Architecture
+## 📂 Project Structure
 
-FlowCash implements a robust component hierarchy:
+```
+  .
+  ├── assets/ # App icons, fonts, images
+  ├── src/
+  │ ├── components/ # UI components (shared & domain-specific)
+  │ ├── context/ # Context providers (Preferences, Transactions)
+  │ ├── localization/ # i18n setup and translation files
+  │ ├── navigation/ # App navigation
+  │ ├── screens/ # Main screen views
+  │ ├── services/ # Business logic (storage, import/export)
+  │ ├── styles/ # Theme and design system
+  │ ├── types/ # Global TypeScript types
+  │ └── utils/ # Utility functions (e.g. currency formatting)
+  ├── App.tsx # Entry point
+  ├── babel.config.js
+  └── package.json
+```
 
-### Context Providers
-- **PreferencesContext**: Manages user preferences with AsyncStorage persistence
-  - Language selection with dynamic locale switching
-  - Currency preference with appropriate formatting
-  - Theme and display options
 
-- **TransactionsContext**: Financial transaction state management
-  - CRUD operations for transaction data
-  - Optimized state updates with React hooks
-  - Data persistence with AsyncStorage
+---
+
+## 🧠 Architecture Overview
+
+### State Management
+- **Component State** for isolated UI logic
+- **React Context API** for shared preferences and financial data
+- **AsyncStorage** for local persistence
+- **Optimistic Updates** and state normalization for performance
 
 ### Component Design
-- **Container/Presenter Pattern**: Separation of logic and UI
-- **Component Composition**: Building complex UIs from smaller, focused components
-- **Prop Drilling Avoidance**: Using context for cross-cutting concerns
-- **Performance Optimization**: Strategic memoization with React.memo and useMemo
+- Container/Presenter separation for clean responsibility
+- Shared and domain-specific UI components
+- Prop drilling avoidance with context
+- Strategic use of `React.memo` and `useMemo`
 
 ---
 
-## 📊 State Management Strategy
+## 🌐 Internationalization
 
-FlowCash implements a sophisticated state management approach:
-
-1. **Local Component State**: UI-specific state using useState
-2. **Context API**: For shared state across component hierarchies
-3. **Persistent Storage**: AsyncStorage for data that survives app restarts
-4. **State Normalization**: Avoiding nested state for better performance
-5. **Optimistic Updates**: Immediate UI updates before persistence completes
-
-Key principles:
-- Single source of truth for each data domain
-- Minimal component re-renders through careful state design
-- Clear separation of UI state and domain state
-
----
-
-## 🌐 Internationalization Architecture
-
-FlowCash features a comprehensive i18n solution:
-
-- **Dynamic Language Switching**: Real-time UI updates on language change
-- **Locale-aware Formatting**: Numbers, currencies, and dates formatted per locale
-- **Translation Management**: Structured key-based translation system
-- **String Interpolation**: Support for variables within translations
-- **RTL Support**: Ready for right-to-left languages
-
-Languages supported with full translation coverage:
-- English (en)
-- Portuguese - Brazil (pt-BR)
-- Portuguese - Portugal (pt-PT)
-- Spanish (es)
-- French (fr)
-- German (de)
-- Italian (it)
-- Japanese (ja)
-- Chinese - Simplified (zh-CN)
-- Russian (ru)
+- Real-time dynamic language switching
+- Support for date/currency/number localization
+- RTL layout support
+- String interpolation with placeholders
+- Languages fully supported:
+  - English (en)
+  - Portuguese – Brazil (pt-BR)
+  - Portuguese – Portugal (pt-PT)
+  - Spanish (es)
+  - French (fr)
+  - German (de)
+  - Italian (it)
+  - Japanese (ja)
+  - Chinese – Simplified (zh-CN)
+  - Russian (ru)
 
 ---
 
-## 💾 Data Persistence Strategy
+## ⚙️ Installation
 
-FlowCash employs a robust persistence strategy:
+### Requirements
+- Node.js 14+
+- Yarn or npm
+- Expo CLI:
 
-1. **Serialization**: Clean conversion between application models and storage format
-2. **Storage Abstraction**: Interface-based approach to storage operations
-3. **Error Handling**: Comprehensive error recovery for storage failures
-4. **Migration Support**: Version-aware data structure for future schema changes
-5. **Backup & Recovery**: Export/import functionality for data protection
+  ```bash
+    npm install -g expo-cli
+  ```
 
-Data integrity is ensured through:
-- Transaction-like operations where appropriate
-- Data validation before storage
-- Conflict resolution during import operations
+### Setup
+
+  ```bash
+    git clone https://github.com/sergiobonatto/flowcash.git
+    cd flowcash
+    yarn install    # or npm install
+    yarn start      # or npm start
+  ```
+
+### Run on Device
+
+1 - Install Expo Go on your iOS or Android device.
+
+2 - Scan the QR code displayed in the terminal.
+
+3 - App will open inside Expo Go.
 
 ---
 
-## 🔧 Development Workflow
+## 🧪 Development Workflow
 
-### Environment Setup
+### Scripts
 
-```bash
-# Install development tools
-npm install -g expo-cli
-
-# Install project dependencies
-yarn install
-```
-
-### Development Scripts
-
-```bash
-# Start development server
-yarn start
-
-# Run on iOS simulator
-yarn ios
-
-# Run on Android emulator
-yarn android
-
-# Run type checking
-yarn typescript
-
-# Run linting
-yarn lint
-```
+  ```bash
+    yarn start       # Start dev server
+    yarn ios         # Run on iOS simulator
+    yarn android     # Run on Android emulator
+    yarn lint        # Run linter
+    yarn typescript  # Type checking
+  ```
 
 ### Best Practices
 
-- **Commit Style**: Follow conventional commits (feat, fix, chore, etc.)
-- **Code Reviews**: Required for all changes with a focus on:
-  - Type safety
-  - Component reusability
-  - Performance considerations
-  - Adherence to project architecture
-- **Testing**: Unit tests for critical business logic
-
----
-
-## 🔍 Future Roadmap
-
-- [ ] **Cloud Sync**: Optional sync across devices
-- [ ] **Budget Planning**: Set and track financial goals
-- [ ] **Receipt Scanning**: OCR for automated transaction entry
-- [ ] **Recurring Transactions**: Support for regular financial events
-- [ ] **Financial Reports**: Advanced analytics and visualizations
-- [ ] **Categories Management**: Custom transaction categorization
-- [ ] **Dark Mode**: Full theme support with auto-switching
-- [ ] **Biometric Authentication**: Extra security for sensitive data
-- [ ] **Widgets**: Home screen quick access on supported platforms
-
----
+* Conventional commits (feat:, fix:, chore:)
+* Focus on:
+  * Type safety
+  * Component reuse
+  * Architectural consistency
+  * Performance-conscious updates
+* Unit testing for critical logic (coming soon)
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! Here's how to get started:
+FlowCash is an open-source project — contributions are welcome!
+1 - Fork the repository
+2 - Create a feature branch:
+  ```bash
+    git checkout -b feature/amazing-feature
+  ```
+3 - Implement your changes with tests
+4 - Submit a PR with a clear description
 
-1. **Fork the repository**
-2. **Create a feature branch**:
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Make your changes** following our code style
-4. **Write tests** for new functionality
-5. **Submit a pull request** with a comprehensive description
+## 📦 Deployment
 
-Please review our Contributing Guidelines for detailed information.
+The app is currently under active development and has not yet been published to the App Store or Play Store.
 
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the LICENSE file for details.
-
----
-
-## 👥 Development Team
-
-- **Sergio Bonatto** - Lead Developer & Designer
-
----
+## 👨‍💻 Lead Developer
+* Sergio Bonatto – Development, design, and architecture
 
 ## 📬 Contact & Support
+For issues, questions, or suggestions, feel free to:
+* Open an issue on the [GitHub repository](https://github.com/sergiobonatto/flowcash)
+* Contact the developer via email (for private security concerns)
 
-Have questions, feedback, or issues? Open an issue on the [GitHub repository](https://github.com/sergiobonatto/flowcash).
-
-For security concerns, please email directly rather than opening public issues.
-
----
-
-<p align="center">
-Built with ❤️ using React Native, TypeScript, and modern development practices.
-</p>
+<p align="center"> Built with ❤️ using React Native, TypeScript, and modern design principles. </p>
