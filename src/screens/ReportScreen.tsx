@@ -18,7 +18,7 @@ type TimeRange = 'week' | 'month' | '3months' | '6months' | 'year' | 'all';
 
 const ReportScreen = () => {
   const { transactions } = useTransactions();
-  const { preferences, translate } = usePreferences();
+  const { preferences, i18n } = usePreferences();
   const screenWidth = Dimensions.get('window').width;
   const [timeRange, setTimeRange] = useState<TimeRange>('month');
 
@@ -278,7 +278,7 @@ const ReportScreen = () => {
       { label: '3M', value: '3months' },
       { label: '6M', value: '6months' },
       { label: '1Y', value: 'year' },
-      { label: translate('report.all'), value: 'all' }
+      { label: i18n.t('report.all'), value: 'all' }
     ];
 
     return (
@@ -309,12 +309,12 @@ const ReportScreen = () => {
   return (
     <ScreenBackground>
       <ScrollView style={styles.container}>
-        <Text style={styles.title}>{translate('report.title')}</Text>
+        <Text style={styles.title}>{i18n.t('report.title')}</Text>
 
         {renderTimeRangeSelector()}
 
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.balanceCard}>
-          <Text style={styles.sectionTitle}>{translate('report.balance')}</Text>
+          <Text style={styles.sectionTitle}>{i18n.t('report.balance')}</Text>
           <Text style={[
             styles.balanceValue,
             financialSummary.totalBalance >= 0 ? styles.positiveBalance : styles.negativeBalance
@@ -324,14 +324,14 @@ const ReportScreen = () => {
 
           <View style={styles.summaryContainer}>
             <View style={styles.summaryItem}>
-              <Text style={styles.summaryLabel}>{translate('report.income')}</Text>
+              <Text style={styles.summaryLabel}>{i18n.t('report.income')}</Text>
               <Text style={styles.incomeValue}>
                 +{formatCurrency(financialSummary.totalIncome, preferences.currency)}
               </Text>
             </View>
 
             <View style={styles.summaryItem}>
-              <Text style={styles.summaryLabel}>{translate('report.expenses')}</Text>
+              <Text style={styles.summaryLabel}>{i18n.t('report.expenses')}</Text>
               <Text style={styles.expenseValue}>
                 -{formatCurrency(financialSummary.totalExpenses, preferences.currency)}
               </Text>
@@ -339,7 +339,7 @@ const ReportScreen = () => {
           </View>
 
           <View style={styles.savingsRateContainer}>
-            <Text style={styles.savingsRateLabel}>{translate('report.savingsRate')}</Text>
+            <Text style={styles.savingsRateLabel}>{i18n.t('report.savingsRate')}</Text>
             <Text style={[
               styles.savingsRateValue,
               financialSummary.savingsRate >= 0 ? styles.positiveBalance : styles.negativeBalance
@@ -351,7 +351,7 @@ const ReportScreen = () => {
 
         {monthlyTrendData.labels.length > 1 && (
           <BlurView intensity={theme.blur.medium} tint="light" style={styles.chartCard}>
-            <Text style={styles.sectionTitle}>{translate('report.monthlyTrend')}</Text>
+            <Text style={styles.sectionTitle}>{i18n.t('report.monthlyTrend')}</Text>
             <LineChart
               data={{
                 labels: monthlyTrendData.labels,
@@ -373,9 +373,9 @@ const ReportScreen = () => {
                   }
                 ],
                 legend: [
-                  translate('report.balance'),
-                  translate('report.income'),
-                  translate('report.expenses')
+                  i18n.t('report.balance'),
+                  i18n.t('report.income'),
+                  i18n.t('report.expenses')
                 ]
               }}
               width={screenWidth - 40}
@@ -401,7 +401,7 @@ const ReportScreen = () => {
         )}
 
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.chartCard}>
-          <Text style={styles.sectionTitle}>{translate('report.expenseCategories')}</Text>
+          <Text style={styles.sectionTitle}>{i18n.t('report.expenseCategories')}</Text>
 
           {expenseCategoryData.length > 0 ? (
             <PieChart
@@ -419,13 +419,13 @@ const ReportScreen = () => {
             />
           ) : (
             <View style={styles.noDataContainer}>
-              <Text style={styles.noDataText}>{translate('report.noData')}</Text>
+              <Text style={styles.noDataText}>{i18n.t('report.noData')}</Text>
             </View>
           )}
         </BlurView>
 
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.chartCard}>
-          <Text style={styles.sectionTitle}>{translate('report.incomeCategories')}</Text>
+          <Text style={styles.sectionTitle}>{i18n.t('report.incomeCategories')}</Text>
 
           {incomeCategoryData.length > 0 ? (
             <PieChart
@@ -443,17 +443,17 @@ const ReportScreen = () => {
             />
           ) : (
             <View style={styles.noDataContainer}>
-              <Text style={styles.noDataText}>{translate('report.noIncomeData')}</Text>
+              <Text style={styles.noDataText}>{i18n.t('report.noIncomeData')}</Text>
             </View>
           )}
         </BlurView>
 
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.infoCard}>
-          <Text style={styles.sectionTitle}>{translate('report.notableTransactions')}</Text>
+          <Text style={styles.sectionTitle}>{i18n.t('report.notableTransactions')}</Text>
 
           <View style={styles.infoRow}>
             <View style={styles.infoItem}>
-              <Text style={styles.infoLabel}>{translate('report.largestExpense')}</Text>
+              <Text style={styles.infoLabel}>{i18n.t('report.largestExpense')}</Text>
               <Text style={styles.expenseValue}>
                 -{formatCurrency(financialSummary.largestExpense.amount, preferences.currency)}
               </Text>
@@ -463,7 +463,7 @@ const ReportScreen = () => {
             </View>
 
             <View style={styles.infoItem}>
-              <Text style={styles.infoLabel}>{translate('report.largestIncome')}</Text>
+              <Text style={styles.infoLabel}>{i18n.t('report.largestIncome')}</Text>
               <Text style={styles.incomeValue}>
                 +{formatCurrency(financialSummary.largestIncome.amount, preferences.currency)}
               </Text>
@@ -476,41 +476,41 @@ const ReportScreen = () => {
 
         {transactionStats && (
           <BlurView intensity={theme.blur.medium} tint="light" style={styles.infoCard}>
-            <Text style={styles.sectionTitle}>{translate('report.statistics')}</Text>
+            <Text style={styles.sectionTitle}>{i18n.t('report.statistics')}</Text>
 
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
                 <Text style={styles.statValue}>{financialSummary.transactionCount}</Text>
-                <Text style={styles.statLabel}>{translate('report.totalTransactions')}</Text>
+                <Text style={styles.statLabel}>{i18n.t('report.totalTransactions')}</Text>
               </View>
 
               <View style={styles.statItem}>
                 <Text style={styles.statValue}>
                   {formatCurrency(transactionStats.averageExpenseAmount, preferences.currency)}
                 </Text>
-                <Text style={styles.statLabel}>{translate('report.avgExpense')}</Text>
+                <Text style={styles.statLabel}>{i18n.t('report.avgExpense')}</Text>
               </View>
 
               <View style={styles.statItem}>
                 <Text style={styles.statValue}>
                   {formatCurrency(transactionStats.averageIncomeAmount, preferences.currency)}
                 </Text>
-                <Text style={styles.statLabel}>{translate('report.avgIncome')}</Text>
+                <Text style={styles.statLabel}>{i18n.t('report.avgIncome')}</Text>
               </View>
 
               <View style={styles.statItem}>
                 <Text style={styles.statValue}>{transactionStats.transactionsPerDay.toFixed(1)}</Text>
-                <Text style={styles.statLabel}>{translate('report.transactionsPerDay')}</Text>
+                <Text style={styles.statLabel}>{i18n.t('report.transactionsPerDay')}</Text>
               </View>
 
               <View style={styles.statItem}>
                 <Text style={styles.statValue}>{transactionStats.mostFrequentExpenseCategory}</Text>
-                <Text style={styles.statLabel}>{translate('report.topExpenseCategory')}</Text>
+                <Text style={styles.statLabel}>{i18n.t('report.topExpenseCategory')}</Text>
               </View>
 
               <View style={styles.statItem}>
                 <Text style={styles.statValue}>{transactionStats.mostFrequentIncomeCategory}</Text>
-                <Text style={styles.statLabel}>{translate('report.topIncomeCategory')}</Text>
+                <Text style={styles.statLabel}>{i18n.t('report.topIncomeCategory')}</Text>
               </View>
             </View>
           </BlurView>

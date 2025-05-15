@@ -8,11 +8,11 @@ import { ActionButtonsProps } from '../types/ComponentsTypes';
 
 
 const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsProps) => {
-  const { translate, preferences } = usePreferences();
+  const { i18n, preferences } = usePreferences();
 
   const handleExport = async () => {
     if (transactions.length === 0) {
-      Alert.alert(translate('export.empty'));
+      Alert.alert(i18n.t('export.empty'));
       return;
     }
 
@@ -26,15 +26,15 @@ const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsPr
       if (result.mode === 'cancel') {
         return;
       }
-      Alert.alert(translate('dialog.title'), translate('import.fail'));
+      Alert.alert(i18n.t('dialog.title'), i18n.t('import.fail'));
       return;
     }
 
     if (result.mode === 'replace') {
       onReplaceAll(result.transactions);
       Alert.alert(
-        translate('dialog.title'),
-        translate('import.success', { count: result.transactions.length.toString() })
+        i18n.t('dialog.title'),
+        i18n.t('import.success', { count: result.transactions.length.toString() })
       );
     }
   };
@@ -45,7 +45,7 @@ const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsPr
         style={[styles.button, styles.exportButton]}
         onPress={handleExport}
       >
-        <Text style={styles.buttonText}>{translate('action.export')}</Text>
+        <Text style={styles.buttonText}>{i18n.t('action.export')}</Text>
       </TouchableOpacity>
 
       <View style={{ height: theme.spacing.md }} />
@@ -54,7 +54,7 @@ const ActionButtons = ({ transactions, onImport, onReplaceAll }: ActionButtonsPr
         style={[styles.button, styles.importButton]}
         onPress={handleImport}
       >
-        <Text style={styles.buttonText}>{translate('action.import')}</Text>
+        <Text style={styles.buttonText}>{i18n.t('action.import')}</Text>
       </TouchableOpacity>
     </View>
   );

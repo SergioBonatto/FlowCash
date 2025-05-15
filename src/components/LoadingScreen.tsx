@@ -4,7 +4,7 @@ import { styles } from '../styles/App.styles';
 import { usePreferences } from '../context/PreferencesContext';
 
 const LoadingScreen = () => {
-  const { translate } = usePreferences();
+  const { i18n } = usePreferences();
 
   return (
     <View style={styles.container}>
@@ -15,7 +15,7 @@ const LoadingScreen = () => {
       />
       <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
       <Text style={styles.text}>
-        {translate('loading')}
+        {i18n.t('loading')}
       </Text>
     </View>
   );

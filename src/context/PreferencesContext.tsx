@@ -71,7 +71,7 @@ export const PreferencesProvider: React.FC<PreferencesProviderProps> = ({ childr
 
 
   return (
-    <PreferencesContext.Provider value={{ preferences, setCurrency, setLanguage, translate }}>
+    <PreferencesContext.Provider value={{ preferences, setCurrency, setLanguage, i18n }}>
       {children}
     </PreferencesContext.Provider>
   );

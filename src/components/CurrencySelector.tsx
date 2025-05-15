@@ -13,7 +13,7 @@ interface CurrencySelectorProps {
   }
 
 const CurrencySelector = ({ currencies, selectedCurrency, onSelect }: CurrencySelectorProps) => {
-  const { translate } = usePreferences();
+  const { i18n } = usePreferences();
   const [modalVisible, setModalVisible] = useState(false);
 
   const selectedCurrencyInfo = currencies.find(c => c.code === selectedCurrency);
@@ -55,7 +55,7 @@ const CurrencySelector = ({ currencies, selectedCurrency, onSelect }: CurrencySe
         <View style={styles.modalOverlay}>
           <BlurView intensity={theme.blur.strong} tint="light" style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>{translate('exchange.selectCurrency')}</Text>
+              <Text style={styles.modalTitle}>{i18n.t('exchange.selectCurrency')}</Text>
               <TouchableOpacity onPress={closeModal}>
                 <Ionicons name="close" size={24} color={theme.colors.text} />
               </TouchableOpacity>

@@ -4,15 +4,15 @@ import { usePreferences } from '../context/PreferencesContext';
 import { HeaderProps } from '../types/ComponentsTypes';
 
 const Header = ({ title, subtitle }: HeaderProps) => {
-  const { translate } = usePreferences();
+  const { i18n } = usePreferences();
 
   return (
     <View>
       <Text style={styles.title}>
-        {title || translate('welcome')}
+        {title || i18n.t('welcome')}
       </Text>
       <Text style={styles.subtitle}>
-        {subtitle || translate('welcome.subtitle')}
+        {subtitle || i18n.t('welcome.subtitle')}
       </Text>
     </View>
   );

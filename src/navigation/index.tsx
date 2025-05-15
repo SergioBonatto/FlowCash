@@ -17,7 +17,7 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
-  const { translate } = usePreferences();
+  const { i18n } = usePreferences();
 
   return (
     <Stack.Navigator
@@ -58,17 +58,17 @@ const RootNavigator = () => {
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{ title: translate('settings') }}
+        options={{ title: i18n.t('settings') }}
       />
       <Stack.Screen
         name="Report"
         component={ReportScreen}
-        options={{ title: translate('report') }}
+        options={{ title: i18n.t('report') }}
       />
       <Stack.Screen
         name="Exchange"
         component={ExchangeRateScreen}
-        options={{ title: translate('exchange.title') }}
+        options={{ title: i18n.t('exchange.title') }}
       />
     </Stack.Navigator>
   );

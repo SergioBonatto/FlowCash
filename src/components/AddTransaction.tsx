@@ -9,7 +9,7 @@ import { AddTransactionProps } from '../types/ComponentsTypes';
 import { pipe, when } from '../utils/functional';
 
 const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
-  const { translate, preferences } = usePreferences();
+  const { i18n, preferences } = usePreferences();
   const { categories } = useTransactions();
 
   const [amount, setAmount] = useState('');
@@ -90,14 +90,14 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
   const handleSave = () => {
     // Validations
     if (!validateTitle(title)) {
-      Alert.alert(translate('error.title'), translate('error.titleRequired'));
+      Alert.alert(i18n.t('error.title'), i18n.t('error.titleRequired'));
       return;
     }
 
     if (!validateAmount(amount)) {
       Alert.alert(
-        translate('error.amount'),
-        amount ? translate('error.validAmount') : translate('error.amountRequired')
+        i18n.t('error.amount'),
+        amount ? i18n.t('error.validAmount') : i18n.t('error.amountRequired')
       );
       return;
     }
@@ -137,18 +137,18 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
         textAlign: 'center',
         fontWeight: theme.fontWeight.medium
       }}>
-        {translate(`transaction.${buttonType}`)}
+        {i18n.t(`transaction.${buttonType}`)}
       </Text>
     </Pressable>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{translate('transaction.new')}</Text>
+      <Text style={styles.title}>{i18n.t('transaction.new')}</Text>
 
       <TextInput
         style={styles.input}
-        placeholder={translate('transaction.title')}
+        placeholder={i18n.t('transaction.title')}
         value={title}
         onChangeText={setTitle}
         placeholderTextColor={theme.colors.grey}
@@ -156,7 +156,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
 
       <TextInput
         style={styles.input}
-        placeholder={translate('transaction.amount')}
+        placeholder={i18n.t('transaction.amount')}
         value={amount}
         onChangeText={handleAmountChange}
         keyboardType="numeric"
@@ -166,7 +166,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
       <View style={styles.categoryInputContainer}>
         <TextInput
           style={styles.input}
-          placeholder={translate('transaction.category')}
+          placeholder={i18n.t('transaction.category')}
           value={category}
           onChangeText={handleCategoryChange}
           placeholderTextColor={theme.colors.grey}
@@ -200,7 +200,7 @@ const AddTransaction = ({ onAddTransaction }: AddTransactionProps) => {
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>{translate('transaction.save')}</Text>
+        <Text style={styles.saveButtonText}>{i18n.t('transaction.save')}</Text>
       </TouchableOpacity>
     </View>
   );

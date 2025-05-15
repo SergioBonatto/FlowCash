@@ -17,7 +17,7 @@ const TransactionHistory = ({
   ListFooterComponent,
   onDeleteTransaction
 }: TransactionHistoryProps) => {
-  const { preferences, translate } = usePreferences();
+  const { preferences, i18n } = usePreferences();
   const swipeableRefs = useRef<Map<string, any>>(new Map());
 
   // Sort transactions from newest to oldest
@@ -27,18 +27,18 @@ const TransactionHistory = ({
 
   const handleDelete = (id: string) => {
     Alert.alert(
-      translate('dialog.delete.title'),
-      translate('dialog.delete.message'),
+      i18n.t('dialog.delete.title'),
+      i18n.t('dialog.delete.message'),
       [
         {
-          text: translate('dialog.cancel'),
+          text: i18n.t('dialog.cancel'),
           style: 'cancel',
           onPress: () => {
             swipeableRefs.current.get(id)?.close();
           }
         },
         {
-          text: translate('dialog.delete'),
+          text: i18n.t('dialog.delete'),
           style: 'destructive',
           onPress: () => {
             onDeleteTransaction && onDeleteTransaction(id);
@@ -99,14 +99,14 @@ const TransactionHistory = ({
 
   const EmptyListComponent = () => (
     <View style={styles.container}>
-      <Text style={styles.title}>{translate('transaction.history')}</Text>
-      <Text style={styles.noTransactions}>{translate('transaction.empty')}</Text>
+      <Text style={styles.title}>{i18n.t('transaction.history')}</Text>
+      <Text style={styles.noTransactions}>{i18n.t('transaction.empty')}</Text>
     </View>
   );
 
   const HeaderTitle = () => (
     <View style={styles.container}>
-      <Text style={styles.title}>{translate('transaction.history')}</Text>
+      <Text style={styles.title}>{i18n.t('transaction.history')}</Text>
     </View>
   );
 

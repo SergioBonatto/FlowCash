@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import ScreenBackground from '../components/ScreenBackground';
 
 const SettingsScreen = () => {
-  const { preferences, setCurrency, setLanguage, translate } = usePreferences();
+  const { preferences, setCurrency, setLanguage, i18n } = usePreferences();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState<'language' | 'currency'>('language');
 
@@ -76,10 +76,10 @@ const SettingsScreen = () => {
   return (
     <ScreenBackground>
       <ScrollView style={styles.container}>
-        <Text style={styles.title}>{translate('settings')}</Text>
+        <Text style={styles.title}>{i18n.t('settings')}</Text>
 
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.card}>
-          <Text style={styles.sectionTitle}>{translate('settings.language')}</Text>
+          <Text style={styles.sectionTitle}>{i18n.t('settings.language')}</Text>
           <TouchableOpacity
             style={styles.selectButton}
             onPress={() => openModal('language')}
@@ -92,7 +92,7 @@ const SettingsScreen = () => {
         </BlurView>
 
         <BlurView intensity={theme.blur.medium} tint="light" style={styles.card}>
-          <Text style={styles.sectionTitle}>{translate('settings.currency')}</Text>
+          <Text style={styles.sectionTitle}>{i18n.t('settings.currency')}</Text>
           <TouchableOpacity
             style={styles.selectButton}
             onPress={() => openModal('currency')}
@@ -116,8 +116,8 @@ const SettingsScreen = () => {
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>
                 {modalType === 'language'
-                  ? translate('settings.language')
-                  : translate('settings.currency')}
+                  ? i18n.t('settings.language')
+                  : i18n.t('settings.currency')}
               </Text>
               <TouchableOpacity onPress={closeModal}>
                 <Ionicons name="close" size={24} color={theme.colors.text} />
