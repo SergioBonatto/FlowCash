@@ -76,7 +76,7 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': 'Exchange rates are obtained from reliable sources and updated regularly. Note that these are approximate rates and may vary slightly from rates used by banks and international transfer services.',
     'exchange.error.title': 'Conversion Error',
     'exchange.error.message': 'Could not fetch exchange rates. Please check your internet connection and try again.',
-
+    'exchange.selectCurrency': 'Select Currency',
   },
   'pt-BR': {
     'welcome': 'Bem-vindo ao FlowCash',
@@ -145,6 +145,7 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': 'As taxas de câmbio são obtidas de fontes confiáveis e atualizadas regularmente. Note que estas são taxas aproximadas e podem variar ligeiramente das taxas utilizadas por bancos e serviços de transferência internacional.',
     'exchange.error.title': 'Erro na Conversão',
     'exchange.error.message': 'Não foi possível obter as taxas de câmbio. Verifique sua conexão com a internet e tente novamente.',
+    'exchange.selectCurrency': 'Selecionar Moeda',
   },
   'pt-PT': {
     'welcome': 'Bem-vindo ao FlowCash',
@@ -206,6 +207,8 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'report.transactionsPerDay': 'Transações por Dia',
     'report.topExpenseCategory': 'Categoria de Despesa Principal',
     'report.topIncomeCategory': 'Categoria de Receita Principal',
+    'exchange.selectCurrency': 'Selecionar Moeda',
+
   },
   'es': {
     'welcome': 'Bienvenido a FlowCash',
@@ -278,6 +281,7 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': 'Los tipos de cambio se obtienen de fuentes confiables y se actualizan regularmente. Tenga en cuenta que estas son tasas aproximadas y pueden variar ligeramente de las tasas utilizadas por bancos y servicios de transferencia internacional.',
     'exchange.error.title': 'Error de Conversión',
     'exchange.error.message': 'No se pudieron obtener las tasas de cambio. Por favor, verifica tu conexión a internet e intenta nuevamente.',
+    'exchange.selectCurrency': 'Seleccionar Moneda',
   },
   'fr': {
     'welcome': 'Bienvenue à FlowCash',
@@ -350,6 +354,8 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': 'Les taux de change sont obtenus de sources fiables et mis à jour régulièrement. Notez que ce sont des taux approximatifs et peuvent varier légèrement des taux utilisés par les banques et les services de transfert international.',
     'exchange.error.title': 'Erreur de Conversion',
     'exchange.error.message': 'Impossible d\'obtenir les taux de change. Veuillez vérifier votre connexion internet et réessayer.',
+    'exchange.selectCurrency': 'Sélectionner la Devise',
+
   },
   'de': {
     'welcome': 'Willkommen bei FlowCash',
@@ -422,6 +428,7 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': 'Die Wechselkurse stammen aus zuverlässigen Quellen und werden regelmäßig aktualisiert. Beachten Sie, dass dies ungefähre Kurse sind und leicht von den von Banken und internationalen Transferdiensten verwendeten Kursen abweichen können.',
     'exchange.error.title': 'Umrechnungsfehler',
     'exchange.error.message': 'Wechselkurse konnten nicht abgerufen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.',
+    'exchange.selectCurrency': 'Währung auswählen',
   },
   'it': {
     'welcome': 'Benvenuto su FlowCash',
@@ -494,6 +501,8 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': 'I tassi di cambio sono ottenuti da fonti affidabili e aggiornati regolarmente. Nota che questi sono tassi approssimativi e possono variare leggermente dai tassi utilizzati dalle banche e dai servizi di trasferimento internazionale.',
     'exchange.error.title': 'Errore di Conversione',
     'exchange.error.message': 'Impossibile ottenere i tassi di cambio. Verifica la tua connessione internet e riprova.',
+    'exchange.selectCurrency': 'Seleziona Valuta',
+
   },
 'ja': {
     'welcome': 'FlowCashへようこそ',
@@ -566,6 +575,8 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': '為替レートは信頼できる情報源から取得し、定期的に更新されています。これらは概算のレートであり、銀行や国際送金サービスで使用されるレートとは若干異なる場合があることにご注意ください。',
     'exchange.error.title': '換算エラー',
     'exchange.error.message': '為替レートを取得できませんでした。インターネット接続を確認して再試行してください。',
+    'exchange.selectCurrency': '通貨を選択',
+
   },
   'zh-CN': {
     'welcome': '欢迎使用 FlowCash',
@@ -638,6 +649,7 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': '汇率来自可靠来源并定期更新。请注意，这些是近似汇率，可能与银行和国际转账服务使用的汇率略有不同。',
     'exchange.error.title': '转换错误',
     'exchange.error.message': '无法获取汇率。请检查您的互联网连接并重试。',
+    'exchange.selectCurrency': '选择货币',
   },
   'ru': {
     'welcome': 'Добро пожаловать в FlowCash',
@@ -710,5 +722,6 @@ export const translations: Record<LanguageCode, TranslationKeys> = {
     'exchange.info': 'Обменные курсы получены из надежных источников и регулярно обновляются. Обратите внимание, что это приблизительные курсы и они могут незначительно отличаться от курсов, используемых банками и службами международных переводов.',
     'exchange.error.title': 'Ошибка Конвертации',
     'exchange.error.message': 'Не удалось получить обменные курсы. Пожалуйста, проверьте подключение к интернету и попробуйте снова.',
+    'exchange.selectCurrency': 'Выбрать Валюту',
   }
 };
